@@ -1,0 +1,70 @@
+[
+  {
+    "id": "sample-01",
+    "input": "function test() { return [a, (b + c)]; }\n",
+    "expected_output": "VALID\n",
+    "category": "nesting",
+    "requirements": [
+      "matching",
+      "nesting"
+    ],
+    "explanation": "All brackets are properly matched and nested."
+  },
+  {
+    "id": "sample-02",
+    "input": "print(\"This [ is not a bracket!\")\n",
+    "expected_output": "VALID\n",
+    "category": "quotes",
+    "requirements": [
+      "matching",
+      "closed-quotes"
+    ],
+    "explanation": "The unmatched square bracket is inside a double-quoted string."
+  },
+  {
+    "id": "sample-03",
+    "input": "function test() { return [(a + b]); }\n",
+    "expected_output": "INVALID\n",
+    "category": "nesting",
+    "requirements": [
+      "matching",
+      "nesting"
+    ],
+    "explanation": "The closing square bracket does not match the innermost opening parenthesis."
+  },
+  {
+    "id": "sample-04",
+    "input": "print(\"She said \\\"Hello!\\\"\")\n",
+    "expected_output": "VALID\n",
+    "category": "escapes",
+    "requirements": [
+      "closed-quotes",
+      "complete-escapes"
+    ],
+    "explanation": "Escaped quotation marks do not close the string."
+  },
+  {
+    "id": "sample-05",
+    "input": "message = \"Hello World\n",
+    "expected_output": "INVALID\n",
+    "category": "unclosed",
+    "requirements": [
+      "matching",
+      "nesting",
+      "closed-quotes",
+      "complete-escapes"
+    ],
+    "explanation": "The double-quoted string is not closed."
+  },
+  {
+    "id": "sample-06",
+    "input": "log('User said \"Hello [World]\"')\n",
+    "expected_output": "VALID\n",
+    "category": "quotes",
+    "requirements": [
+      "matching",
+      "closed-quotes"
+    ],
+    "explanation": "Opposite quotes and brackets are ordinary characters inside this single-quoted string."
+  }
+]

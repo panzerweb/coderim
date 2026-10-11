@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "id": "broken-code-formatter",
+  "version": 1,
+  "title": "The Broken Code Formatter",
+  "difficulty": "Hard",
+  "tags": [
+    "Strings",
+    "Stacks",
+    "Parsing"
+  ],
+  "status": "published",
+  "order": 1,
+  "suggested_duration_minutes": 60,
+  "submission_mode": "stdin_stdout",
+  "statement_file": "statement.md",
+  "samples_file": "samples.json",
+  "tests_manifest": "tests/manifest.json",
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "source_bytes": 65536,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 65536
+  },
+  "checker": {
+    "type": "text",
+    "normalize_line_endings": true,
+    "trim_trailing_whitespace_per_line": true,
+    "ignore_final_newline": true
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "category_weights": {
+    "basic": 15,
+    "nesting": 20,
+    "quotes": 20,
+    "escapes": 20,
+    "unclosed": 15,
+    "large": 10
+  },
+  "requirements": [
+    {
+      "id": "matching",
+      "text": "Opening brackets have matching closing brackets of the correct type outside strings."
+    },
+    {
+      "id": "nesting",
+      "text": "Brackets outside strings are properly nested."
+    },
+    {
+      "id": "closed-quotes",
+      "text": "All quoted strings are properly closed; brackets inside strings are ignored."
+    },
+    {
+      "id": "complete-escapes",
+      "text": "Within strings a backslash escapes exactly the next character; no escape is dangling."
+    }
+  ],
+  "rubric": {
+    "version": 1,
+    "weights": {
+      "correctness": 50,
+      "requirements": 20,
+      "readability": 15,
+      "technical": 15
+    },
+    "readability": [
+      "Naming",
+      "Clarity",
+      "Useful explanations and comments",
+      "Ease of handoff"
+    ],
+    "technical": [
+      "Structure",
+      "State management",
+      "Algorithm and data structures",
+      "Avoiding unnecessary complexity"
+    ]
+  }
+}

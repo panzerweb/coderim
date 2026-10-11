@@ -1,0 +1,622 @@
+{
+  "cases": [
+    {
+      "id": "basic-01",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-01.in",
+      "output_file": "tests/basic-01.out"
+    },
+    {
+      "id": "basic-02",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-02.in",
+      "output_file": "tests/basic-02.out"
+    },
+    {
+      "id": "basic-03",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-03.in",
+      "output_file": "tests/basic-03.out"
+    },
+    {
+      "id": "basic-04",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-04.in",
+      "output_file": "tests/basic-04.out"
+    },
+    {
+      "id": "basic-05",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-05.in",
+      "output_file": "tests/basic-05.out"
+    },
+    {
+      "id": "basic-06",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-06.in",
+      "output_file": "tests/basic-06.out"
+    },
+    {
+      "id": "basic-07",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-07.in",
+      "output_file": "tests/basic-07.out"
+    },
+    {
+      "id": "basic-08",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-08.in",
+      "output_file": "tests/basic-08.out"
+    },
+    {
+      "id": "basic-09",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-09.in",
+      "output_file": "tests/basic-09.out"
+    },
+    {
+      "id": "basic-10",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-10.in",
+      "output_file": "tests/basic-10.out"
+    },
+    {
+      "id": "basic-11",
+      "category": "basic",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/basic-11.in",
+      "output_file": "tests/basic-11.out"
+    },
+    {
+      "id": "nesting-01",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-01.in",
+      "output_file": "tests/nesting-01.out"
+    },
+    {
+      "id": "nesting-02",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-02.in",
+      "output_file": "tests/nesting-02.out"
+    },
+    {
+      "id": "nesting-03",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-03.in",
+      "output_file": "tests/nesting-03.out"
+    },
+    {
+      "id": "nesting-04",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-04.in",
+      "output_file": "tests/nesting-04.out"
+    },
+    {
+      "id": "nesting-05",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-05.in",
+      "output_file": "tests/nesting-05.out"
+    },
+    {
+      "id": "nesting-06",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-06.in",
+      "output_file": "tests/nesting-06.out"
+    },
+    {
+      "id": "nesting-07",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-07.in",
+      "output_file": "tests/nesting-07.out"
+    },
+    {
+      "id": "nesting-08",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-08.in",
+      "output_file": "tests/nesting-08.out"
+    },
+    {
+      "id": "nesting-09",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-09.in",
+      "output_file": "tests/nesting-09.out"
+    },
+    {
+      "id": "nesting-10",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-10.in",
+      "output_file": "tests/nesting-10.out"
+    },
+    {
+      "id": "nesting-11",
+      "category": "nesting",
+      "requirements": [
+        "matching",
+        "nesting"
+      ],
+      "input_file": "tests/nesting-11.in",
+      "output_file": "tests/nesting-11.out"
+    },
+    {
+      "id": "quotes-01",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-01.in",
+      "output_file": "tests/quotes-01.out"
+    },
+    {
+      "id": "quotes-02",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-02.in",
+      "output_file": "tests/quotes-02.out"
+    },
+    {
+      "id": "quotes-03",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-03.in",
+      "output_file": "tests/quotes-03.out"
+    },
+    {
+      "id": "quotes-04",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-04.in",
+      "output_file": "tests/quotes-04.out"
+    },
+    {
+      "id": "quotes-05",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-05.in",
+      "output_file": "tests/quotes-05.out"
+    },
+    {
+      "id": "quotes-06",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-06.in",
+      "output_file": "tests/quotes-06.out"
+    },
+    {
+      "id": "quotes-07",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-07.in",
+      "output_file": "tests/quotes-07.out"
+    },
+    {
+      "id": "quotes-08",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-08.in",
+      "output_file": "tests/quotes-08.out"
+    },
+    {
+      "id": "quotes-09",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-09.in",
+      "output_file": "tests/quotes-09.out"
+    },
+    {
+      "id": "quotes-10",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-10.in",
+      "output_file": "tests/quotes-10.out"
+    },
+    {
+      "id": "quotes-11",
+      "category": "quotes",
+      "requirements": [
+        "matching",
+        "closed-quotes"
+      ],
+      "input_file": "tests/quotes-11.in",
+      "output_file": "tests/quotes-11.out"
+    },
+    {
+      "id": "escapes-01",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-01.in",
+      "output_file": "tests/escapes-01.out"
+    },
+    {
+      "id": "escapes-02",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-02.in",
+      "output_file": "tests/escapes-02.out"
+    },
+    {
+      "id": "escapes-03",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-03.in",
+      "output_file": "tests/escapes-03.out"
+    },
+    {
+      "id": "escapes-04",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-04.in",
+      "output_file": "tests/escapes-04.out"
+    },
+    {
+      "id": "escapes-05",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-05.in",
+      "output_file": "tests/escapes-05.out"
+    },
+    {
+      "id": "escapes-06",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-06.in",
+      "output_file": "tests/escapes-06.out"
+    },
+    {
+      "id": "escapes-07",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-07.in",
+      "output_file": "tests/escapes-07.out"
+    },
+    {
+      "id": "escapes-08",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-08.in",
+      "output_file": "tests/escapes-08.out"
+    },
+    {
+      "id": "escapes-09",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-09.in",
+      "output_file": "tests/escapes-09.out"
+    },
+    {
+      "id": "escapes-10",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-10.in",
+      "output_file": "tests/escapes-10.out"
+    },
+    {
+      "id": "escapes-11",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-11.in",
+      "output_file": "tests/escapes-11.out"
+    },
+    {
+      "id": "escapes-12",
+      "category": "escapes",
+      "requirements": [
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/escapes-12.in",
+      "output_file": "tests/escapes-12.out"
+    },
+    {
+      "id": "unclosed-01",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-01.in",
+      "output_file": "tests/unclosed-01.out"
+    },
+    {
+      "id": "unclosed-02",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-02.in",
+      "output_file": "tests/unclosed-02.out"
+    },
+    {
+      "id": "unclosed-03",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-03.in",
+      "output_file": "tests/unclosed-03.out"
+    },
+    {
+      "id": "unclosed-04",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-04.in",
+      "output_file": "tests/unclosed-04.out"
+    },
+    {
+      "id": "unclosed-05",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-05.in",
+      "output_file": "tests/unclosed-05.out"
+    },
+    {
+      "id": "unclosed-06",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-06.in",
+      "output_file": "tests/unclosed-06.out"
+    },
+    {
+      "id": "unclosed-07",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-07.in",
+      "output_file": "tests/unclosed-07.out"
+    },
+    {
+      "id": "unclosed-08",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-08.in",
+      "output_file": "tests/unclosed-08.out"
+    },
+    {
+      "id": "unclosed-09",
+      "category": "unclosed",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/unclosed-09.in",
+      "output_file": "tests/unclosed-09.out"
+    },
+    {
+      "id": "large-01",
+      "category": "large",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/large-01.in",
+      "output_file": "tests/large-01.out"
+    },
+    {
+      "id": "large-02",
+      "category": "large",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/large-02.in",
+      "output_file": "tests/large-02.out"
+    },
+    {
+      "id": "large-03",
+      "category": "large",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/large-03.in",
+      "output_file": "tests/large-03.out"
+    },
+    {
+      "id": "large-04",
+      "category": "large",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/large-04.in",
+      "output_file": "tests/large-04.out"
+    },
+    {
+      "id": "large-05",
+      "category": "large",
+      "requirements": [
+        "matching",
+        "nesting",
+        "closed-quotes",
+        "complete-escapes"
+      ],
+      "input_file": "tests/large-05.in",
+      "output_file": "tests/large-05.out"
+    }
+  ]
+}

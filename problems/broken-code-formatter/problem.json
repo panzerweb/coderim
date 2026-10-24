@@ -62,6 +62,12 @@
       "text": "Within strings a backslash escapes exactly the next character; no escape is dangling."
     }
   ],
+  "reference_complexity": {
+    "variables": {"L": "Characters in the source-code line"},
+    "time_by_phase": {"Validation": "O(L)"},
+    "auxiliary_space": "O(L)",
+    "notes": "The reference visits each character once and stores unmatched opening brackets. Include the stored source line, recursion, and input/output buffers when reviewing total program space. This is a reference target, not an inferred property of submitted code."
+  },
   "rubric": {
     "version": 1,
     "weights": {

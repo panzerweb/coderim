@@ -1,0 +1,67 @@
+{
+  "title": "Longest Rising Streak with Updates",
+  "order": 2,
+  "tags": [
+    "Segment Trees",
+    "Arrays",
+    "Range Queries"
+  ],
+  "limits": {
+    "time_ms": 5000,
+    "stdin_bytes": 8388608,
+    "stdout_bytes": 2097152,
+    "memory_mb": 256
+  },
+  "category_weights": {
+    "basic": 15,
+    "equality-boundaries": 15,
+    "updates": 20,
+    "range-merging": 25,
+    "multiple-testcases": 10,
+    "scale": 15
+  },
+  "requirements": [
+    {
+      "id": "strict-streak",
+      "text": "Count only strictly increasing consecutive days."
+    },
+    {
+      "id": "persistent-updates",
+      "text": "Apply corrections to subsequent queries within the same test case."
+    },
+    {
+      "id": "query-boundaries",
+      "text": "Restrict streaks to inclusive one-based query boundaries."
+    },
+    {
+      "id": "independent-cases",
+      "text": "Keep test cases independent and print only query answers in order."
+    }
+  ],
+  "reference_complexity": {
+    "variables": {
+      "N": "Days in one test case",
+      "Q": "Operations in that test case"
+    },
+    "time_by_phase": {
+      "Build": "O(N)",
+      "UPDATE": "O(log N)",
+      "QUERY": "O(log N)",
+      "All test cases": "O(sum(N + Q log N))"
+    },
+    "auxiliary_space": "O(N) per test case",
+    "notes": "Reference target, not an analysis of the submitted program. Python streams operation lines/output; retained input, output buffers, and recursion count toward total program space. Hard/60 minutes and limits are provisional."
+  },
+  "schema_version": 1,
+  "id": "longest-rising-streak-updates",
+  "version": 1,
+  "difficulty": "Hard",
+  "status": "published",
+  "suggested_duration_minutes": 60,
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  }
+}

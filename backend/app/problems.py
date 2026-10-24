@@ -57,7 +57,8 @@ class Problem:
                 "explanation": s.explanation} for s in self.samples],
             "limits": {**self.meta.limits.model_dump(), "memory_enforced": False},
             "starters": self.starters, "requirements": [r.model_dump() for r in self.meta.requirements],
-            "category_weights": self.meta.category_weights, "rubric": self.meta.rubric.model_dump()}
+            "category_weights": self.meta.category_weights, "rubric": self.meta.rubric.model_dump(),
+            "reference_complexity": self.meta.reference_complexity.model_dump() if self.meta.reference_complexity else None}
 
 
 def load_problem(root: Path) -> Problem:

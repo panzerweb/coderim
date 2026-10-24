@@ -32,7 +32,8 @@ class Jobs:
                 raise queue.Full
             key = str(uuid.uuid4())
             if mode == "submit":
-                self.storage.create(key, request, problem.meta.rubric.model_dump())
+                self.storage.create(key, request, problem.meta.rubric.model_dump(),
+                    problem.meta.reference_complexity.model_dump() if problem.meta.reference_complexity else None)
             self.records[key] = {"id": key, "state": "queued", "result": None, "attempt_id": key if mode == "submit" else None}
             self.queue.put_nowait((key, request, problem, mode))
             return {"job_id": key, "attempt_id": key if mode == "submit" else None}

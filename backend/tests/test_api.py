@@ -66,7 +66,9 @@ class ApiTests(unittest.TestCase):
         for origin in ('https://evil.example', 'null'):
             self.assertEqual(self.client.post('/api/submissions', json=self.payload, headers={'Origin': origin}).status_code, 403)
         self.assertEqual(self.client.post('/api/submissions', content='code=bad', headers={'Content-Type': 'application/x-www-form-urlencoded'}).status_code, 403)
-        self.assertEqual(self.client.post('/api/submissions', content=b'x' * 1200001, headers={'Content-Type': 'application/json'}).status_code, 413)
+        from unittest.mock import patch
+        with patch('app.main.MAX_REQUEST_BYTES', 4096):
+            self.assertEqual(self.client.post('/api/submissions', content=b'x' * 4097, headers={'Content-Type': 'application/json'}).status_code, 413)
         self.assertEqual(self.client.get('/api/health', headers={'Host': 'evil.example'}).status_code, 400)
 
     def test_queue_overload_response(self):
@@ -93,12 +95,23 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(invalid.status_code, 422)
         reviewed = self.client.put(f'/api/attempts/{key}/review', json={'readability': [3] * 4, 'technical': [4] * 4, 'rationale': 'Readable state transitions and linear algorithm.'}).json()
         self.assertEqual(reviewed['result']['assessment']['final'], 96.25)
+        self.assertEqual(reviewed['reference_complexity']['auxiliary_space'], 'O(L)')
+        annotation = {'status': 'assessed', 'worst_case_time': 'O(L)', 'auxiliary_space': 'O(L)',
+            'total_space': 'O(L)', 'reasoning': 'The saved program stores the line and a stack, then scans once.'}
+        reviewed = self.client.put(f'/api/attempts/{key}/review', json={'readability': [3] * 4, 'technical': [4] * 4,
+            'rationale': 'Complexity evidence added', 'complexity': annotation}).json()
+        self.assertEqual(reviewed['review']['complexity'], annotation)
+        reviewed = self.client.put(f'/api/attempts/{key}/review', json={'readability': [3] * 4, 'technical': [4] * 4,
+            'rationale': 'Legacy client updates only ratings'}).json()
+        self.assertEqual(reviewed['review']['complexity'], annotation)
+        self.assertEqual(reviewed['result']['assessment']['final'], 96.25)
         self.client.__exit__(None, None, None)
         self.app = create_app(runtime=self.runtime, registry=self.registry)
         self.client = TestClient(self.app, base_url='http://127.0.0.1:8000'); self.client.__enter__()
         saved = self.client.get(f'/api/attempts/{key}').json()
         self.assertEqual(saved['code'], reference)
         self.assertEqual(saved['result']['assessment']['final'], 96.25)
+        self.assertEqual(saved['review']['complexity'], annotation)
         self.assertEqual(self.client.get('/api/jobs/' + key).status_code, 404)
         listed = self.client.get('/api/attempts', params={'problem_id': 'broken-code-formatter', 'problem_version': 1, 'language': 'python'}).json()
         self.assertEqual(listed[0]['id'], key)

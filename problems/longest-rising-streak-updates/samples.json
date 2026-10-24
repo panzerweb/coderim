@@ -1,0 +1,39 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "2\n7 1\n1 2 4 3 5 6 7\nQUERY 1 7\n6 1\n1 2 2 3 4 1\nQUERY 1 6\n",
+    "expected_output": "4\n3\n",
+    "explanation": "The original streaks have lengths 4 and 3. Equality breaks a rising streak.",
+    "requirements": [
+      "independent-cases",
+      "strict-streak",
+      "query-boundaries"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "updates",
+    "input": "1\n7 6\n1 2 4 3 5 6 7\nQUERY 1 7\nUPDATE 3 3\nQUERY 1 7\nUPDATE 4 4\nQUERY 1 7\nQUERY 3 3\n",
+    "expected_output": "4\n4\n7\n1\n",
+    "explanation": "The first correction leaves an equality boundary. The next joins all seven days; a singleton query returns 1.",
+    "requirements": [
+      "independent-cases",
+      "strict-streak",
+      "query-boundaries",
+      "persistent-updates"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "range-merging",
+    "input": "1\n5 3\n-3 -1 0 -2 2\nQUERY 2 5\nQUERY 4 5\nQUERY 3 3\n",
+    "expected_output": "2\n2\n1\n",
+    "explanation": "Only days inside the query interval count. Negative readings and singleton ranges are valid.",
+    "requirements": [
+      "independent-cases",
+      "strict-streak",
+      "query-boundaries"
+    ]
+  }
+]

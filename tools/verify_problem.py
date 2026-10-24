@@ -21,8 +21,12 @@ def verify(slug):
     for incorrect in (directory / 'author' / 'incorrect_solutions').glob('*.py'):
         detected = False
         for case in p.cases:
-            run = subprocess.run([sys.executable, '-I', str(incorrect)], input=case.stdin,
-                capture_output=True, text=True, timeout=5)
+            try:
+                run = subprocess.run([sys.executable, '-I', str(incorrect)], input=case.stdin,
+                    capture_output=True, text=True, timeout=p.meta.limits.time_ms / 1000)
+            except subprocess.TimeoutExpired:
+                detected = True
+                break
             if run.returncode or normalize(run.stdout, p.meta.checker) != normalize(case.expected, p.meta.checker):
                 detected = True
                 break

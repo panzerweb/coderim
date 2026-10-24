@@ -1,0 +1,40 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "6\n1 2\n1 3\n2 4\n2 5\n3 6\n3\nQUERY 1 5\nQUERY 3 4\nQUERY 2 2\n",
+    "expected_output": "YES\nNO\nYES\n",
+    "explanation": "The repaired original sample includes edge 2\u20135. The initial root is 1; a node is its own ancestor.",
+    "requirements": [
+      "query-output",
+      "ancestor-path",
+      "self-ancestry"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "root-changes",
+    "input": "6\n1 2\n1 3\n2 4\n2 5\n3 6\n9\nROOT 5\nQUERY 2 1\nQUERY 1 5\nQUERY 3 6\nQUERY 5 4\nROOT 6\nQUERY 3 5\nQUERY 2 6\nQUERY 6 6\n",
+    "expected_output": "YES\nNO\nYES\nYES\nYES\nNO\nYES\n",
+    "explanation": "Changing the root changes ancestry directions but preserves every edge. The current root is an ancestor of every node.",
+    "requirements": [
+      "query-output",
+      "ancestor-path",
+      "logical-root",
+      "self-ancestry"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "self-root",
+    "input": "1\n3\nQUERY 1 1\nROOT 1\nQUERY 1 1\n",
+    "expected_output": "YES\nYES\n",
+    "explanation": "A one-node tree has no edge lines. Its only node remains its own ancestor.",
+    "requirements": [
+      "query-output",
+      "ancestor-path",
+      "logical-root",
+      "self-ancestry"
+    ]
+  }
+]

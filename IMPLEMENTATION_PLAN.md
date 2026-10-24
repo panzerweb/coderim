@@ -4,7 +4,7 @@ This implementation preserves the architecture of `code_relay_judge_implementati
 
 ## User flow
 
-Homepage → Start → dynamic problem library → statement/Monaco workspace → samples or custom-input exploration → official submission → criteria/evidence → local human review → progress across attempts.
+Homepage → Start → dynamic problem library → statement/Monaco workspace → samples or custom-input exploration → official submission → criteria/evidence → local human review with optional complexity reasoning → progress across attempts.
 
 ## Assessment
 
@@ -17,6 +17,14 @@ The Broken Code Formatter uses the supplied six samples and category weights (15
 The versioned file-based package includes safe relative paths, authoritative samples, saved hidden input/output files, category mappings, requirement mappings, duration, resource targets, and rubric definitions. API routes expose published problems, toolchain availability, runs, submissions, jobs, attempt history, source snapshots, and review updates. Hidden-case data and author materials never appear in participant DTOs.
 
 SQLite stores source/result/rubric snapshots and reviews. Job execution remains a bounded in-memory single-worker queue. Restart interrupts unfinished attempts, while completed history survives. Drafts and progress comparisons are separated by problem/version/language.
+
+Schema 2 adds nullable frozen reference-complexity context, with a transactional version-1 migration. Review annotations cover worst-case time, auxiliary space, total space including stored input/output, and reasoning, or an explicit inability to assess. These are reviewer-only fields; reference targets, human assessments, and measured runtime remain separate. Missing legacy data is not backfilled from current content. Existing review clients preserve saved complexity when omitting it. Scoring and acceptance remain unchanged.
+
+## Additional Hard challenges
+
+Longest Rising Streak with Updates supports UPDATE I X and QUERY L R across independent test cases. Its ordered segment-tree reference has O(N) build, O(log N) operations, and O(N) auxiliary space. G-Tree: Ancestors with a Changing Root supports ROOT R and QUERY U V on fixed edges; its iterative traversal/binary-lifting reference has O(N log N) preprocessing/space, O(1) root changes, and O(log N) queries. Both are provisional Hard/60-minute challenges for DSA students, pending representative human pilots.
+
+Their versioned packages include verified samples, hidden tests, independent small-case oracles, deterministic generators, faulty solutions, fast input starters in four languages, and private reference implementations. Streak category weights are 15/15/20/25/10/15; tree category weights are 15/15/25/20/10/15. Each has four equally weighted behavioral requirements. Inputs may require the new 8 MiB operator ceiling and output up to 2 MiB; original package limits, 100-case/20 MiB package bounds, and the formatter's 65 cases are preserved.
 
 ## Boundaries and verification
 

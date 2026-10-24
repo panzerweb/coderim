@@ -4,10 +4,11 @@ import { RouterLink, useRoute } from 'vue-router'
 import MarkdownIt from 'markdown-it'
 import DOMPurify from 'dompurify'
 import { api, draftKey } from '../api'
-import type { Attempt, Job, Language, Problem, Result } from '../types'
+import type { Attempt, Job, Language, Problem, Result, ReviewedComplexity } from '../types'
 import CodeEditor from '../components/CodeEditor.vue'
 import JudgeResults from '../components/JudgeResults.vue'
 import Trajectory from '../components/Trajectory.vue'
+import ComplexityAnalysis from '../components/ComplexityAnalysis.vue'
 
 const route = useRoute()
 const problem = ref<Problem>()
@@ -26,9 +27,15 @@ const tab = ref<'results' | 'history'>('results')
 const attempts = ref<Attempt[]>([])
 const selected = ref<Attempt>()
 const currentAttemptId = ref<string | null>(null)
+const currentAttempt = ref<Attempt>()
 const ratingsRead = ref<(number | null)[]>([null, null, null, null])
 const ratingsTech = ref<(number | null)[]>([null, null, null, null])
 const rationale = ref('')
+const complexityStatus = ref<'not_assessed' | 'assessed' | 'unable_to_assess'>('not_assessed')
+const complexityTime = ref('')
+const complexityAuxiliary = ref('')
+const complexityTotal = ref('')
+const complexityReasoning = ref('')
 const reviewing = ref(false)
 const reviewNotice = ref('')
 const split = ref(39)
@@ -58,7 +65,7 @@ watch(code, value => {
 watch(language, () => {
   if (!problem.value) return
   storageSet(`code-relay:language:${problem.value.id}`, language.value)
-  result.value = undefined; selected.value = undefined; currentAttemptId.value = null
+  result.value = undefined; selected.value = undefined; currentAttemptId.value = null; currentAttempt.value = undefined
   loadDraft(); void loadHistory()
 })
 async function loadHistory() {
@@ -80,6 +87,8 @@ async function poll(id: string) {
     state.value = job.state
     if (job.state === 'completed' || job.state === 'failed') {
       result.value = job.result ?? undefined; currentAttemptId.value = job.attempt_id
+      if (job.attempt_id) currentAttempt.value = await api<Attempt>(`/attempts/${job.attempt_id}`)
+      if (disposed) return
       busy.value = false; activeJob.value = null; rememberJob(null)
       await loadHistory()
     } else {
@@ -93,7 +102,7 @@ function retryPoll() { if (activeJob.value) { error.value = ''; busy.value = tru
 async function execute(mode: 'samples' | 'custom' | 'submit') {
   if (!problem.value || busy.value || !available.value) return
   if (!code.value.trim()) { error.value = 'Write a solution before running or submitting.'; return }
-  error.value = ''; busy.value = true; state.value = 'queued'; result.value = undefined; tab.value = 'results'
+  error.value = ''; busy.value = true; state.value = 'queued'; result.value = undefined; tab.value = 'results'; currentAttempt.value = undefined
   const payload = {problem_id: problem.value.id, problem_version: problem.value.version, language: language.value, code: code.value,
     ...(mode !== 'submit' ? {mode, stdin: mode === 'custom' ? customInput.value : ''} : {})}
   try {
@@ -118,6 +127,12 @@ async function inspect(id: string) {
     ratingsRead.value = attempt.review ? [...attempt.review.readability] : [null, null, null, null]
     ratingsTech.value = attempt.review ? [...attempt.review.technical] : [null, null, null, null]
     rationale.value = attempt.review?.rationale || ''
+    const analysis = attempt.review?.complexity
+    complexityStatus.value = analysis?.status || 'not_assessed'
+    complexityTime.value = analysis?.worst_case_time || ''
+    complexityAuxiliary.value = analysis?.auxiliary_space || ''
+    complexityTotal.value = analysis?.total_space || ''
+    complexityReasoning.value = analysis?.reasoning || ''
   } catch (e) { error.value = (e as Error).message }
 }
 function restore() {
@@ -127,12 +142,26 @@ async function saveReview() {
   if (!selected.value || ratingsRead.value.includes(null) || ratingsTech.value.includes(null) || !rationale.value.trim()) {
     error.value = 'Rate every dimension and provide a short review rationale.'; return
   }
+  let complexity: ReviewedComplexity | undefined
+  if (complexityStatus.value !== 'not_assessed') {
+    if (!complexityReasoning.value.trim() || (complexityStatus.value === 'assessed' &&
+        [complexityTime.value, complexityAuxiliary.value, complexityTotal.value].some(value => !value.trim()))) {
+      error.value = 'Provide complexity bounds and reasoning, or choose Unable to assess with an explanation.'; return
+    }
+    const assessed = complexityStatus.value === 'assessed'
+    complexity = {status: complexityStatus.value,
+      worst_case_time: assessed ? complexityTime.value.trim() : null,
+      auxiliary_space: assessed ? complexityAuxiliary.value.trim() : null,
+      total_space: assessed ? complexityTotal.value.trim() : null,
+      reasoning: complexityReasoning.value.trim()}
+  }
   reviewing.value = true; error.value = ''; reviewNotice.value = ''
   try {
     const updated = await api<Attempt>(`/attempts/${selected.value.id}/review`, {method: 'PUT', body: JSON.stringify({
-      readability: ratingsRead.value, technical: ratingsTech.value, rationale: rationale.value.trim()})})
+      readability: ratingsRead.value, technical: ratingsTech.value, rationale: rationale.value.trim(),
+      ...(complexity ? {complexity} : {})})})
     selected.value = updated
-    if (currentAttemptId.value === updated.id) result.value = updated.result ?? undefined
+    if (currentAttemptId.value === updated.id) { result.value = updated.result ?? undefined; currentAttempt.value = updated }
     reviewNotice.value = 'Review saved to this source snapshot.'
     await loadHistory()
   } catch (e) { error.value = (e as Error).message }
@@ -186,6 +215,7 @@ onBeforeUnmount(() => { disposed = true; clearTimeout(pollTimer); window.removeE
           <div class="results-content">
             <template v-if="tab === 'results'">
               <JudgeResults v-if="result" :result="result" :rubric="problem.rubric" />
+              <ComplexityAnalysis v-if="result?.assessment && currentAttempt" :reference="currentAttempt.reference_complexity" :analysis="currentAttempt.review?.complexity" />
               <div v-else class="results-empty"><span>[ ]</span><h3>Your next result starts here.</h3><p>Try the samples, explore an edge case, or submit against the full test suite.</p></div>
               <button v-if="currentAttemptId && result?.assessment" class="review-link" @click="reviewCurrent">Review this attempt’s code quality →</button>
             </template>
@@ -196,10 +226,21 @@ onBeforeUnmount(() => { disposed = true; clearTimeout(pollTimer); window.removeE
               <section v-if="selected" class="attempt-detail" aria-label="Selected attempt">
                 <div class="section-heading"><h3>Saved source · {{ date(selected.created_at) }}</h3><button @click="restore" :disabled="busy">Restore to editor</button></div><pre class="source-snapshot">{{ selected.code }}</pre>
                 <JudgeResults v-if="selected.result" :result="selected.result" :rubric="selected.rubric" />
+                <ComplexityAnalysis :reference="selected.reference_complexity" :analysis="selected.review?.complexity" />
                 <form v-if="selected.result?.assessment" class="review-form" @submit.prevent="saveReview">
                   <h3>Human code review</h3><p>Review the saved source above. 0 = missing, 1 = weak, 2 = partial, 3 = good, 4 = strong. Useful clarity matters; extra comments or abstraction do not earn automatic credit.</p>
                   <fieldset><legend>Readability and maintainability · {{ selected.rubric.weights.readability }}%</legend><label v-for="(dimension, i) in selected.rubric.readability" :key="dimension">{{ dimension }}<select v-model="ratingsRead[i]" :aria-label="`Readability: ${dimension}`" required><option :value="null" disabled>Select rating</option><option v-for="n in [0, 1, 2, 3, 4]" :key="n" :value="n">{{ n }}</option></select></label></fieldset>
                   <fieldset><legend>Organization and technical quality · {{ selected.rubric.weights.technical }}%</legend><label v-for="(dimension, i) in selected.rubric.technical" :key="dimension">{{ dimension }}<select v-model="ratingsTech[i]" :aria-label="`Technical quality: ${dimension}`" required><option :value="null" disabled>Select rating</option><option v-for="n in [0, 1, 2, 3, 4]" :key="n" :value="n">{{ n }}</option></select></label></fieldset>
+                  <fieldset class="complexity-form"><legend>Reviewer complexity analysis</legend>
+                    <p class="muted">Use the saved code above. Account for library operations, recursion, and retained input/output. Use this reasoning as evidence for Technical Quality; the four grading weights stay unchanged.</p>
+                    <label for="complexity-status">Analysis status</label><select id="complexity-status" v-model="complexityStatus"><option value="not_assessed" :disabled="!!selected.review?.complexity">Not assessed</option><option value="assessed">Assessed</option><option value="unable_to_assess">Unable to assess</option></select>
+                    <template v-if="complexityStatus === 'assessed'">
+                      <label for="complexity-time">Worst-case time</label><input id="complexity-time" v-model="complexityTime" required maxlength="240" placeholder="e.g. O(N + Q log N)">
+                      <label for="complexity-auxiliary">Auxiliary space</label><input id="complexity-auxiliary" v-model="complexityAuxiliary" required maxlength="240" placeholder="e.g. O(N), including any recursion stack">
+                      <label for="complexity-total">Space including stored input/output</label><input id="complexity-total" v-model="complexityTotal" required maxlength="240" placeholder="e.g. O(N + Q) if all answers are retained">
+                    </template>
+                    <template v-if="complexityStatus !== 'not_assessed'"><label for="complexity-reasoning">Complexity reasoning</label><textarea id="complexity-reasoning" v-model="complexityReasoning" required maxlength="4000" placeholder="Explain the dominant work and allocations, or why a bound cannot be assessed."></textarea></template>
+                  </fieldset>
                   <label for="rationale">Review rationale</label><textarea id="rationale" v-model="rationale" required maxlength="4000" placeholder="Explain your ratings with concrete observations about this source…"></textarea>
                   <div class="review-actions"><button class="primary" :disabled="reviewing">{{ reviewing ? 'Saving…' : 'Save review' }}</button><span role="status">{{ reviewNotice }}</span></div>
                 </form>

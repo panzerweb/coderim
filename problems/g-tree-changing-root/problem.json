@@ -1,0 +1,67 @@
+{
+  "title": "G-Tree: Ancestors with a Changing Root",
+  "order": 3,
+  "tags": [
+    "Trees",
+    "Binary Lifting",
+    "Queries"
+  ],
+  "limits": {
+    "time_ms": 5000,
+    "stdin_bytes": 8388608,
+    "stdout_bytes": 1048576,
+    "memory_mb": 256
+  },
+  "category_weights": {
+    "basic": 15,
+    "self-root": 15,
+    "root-changes": 25,
+    "branches": 20,
+    "edge-order": 10,
+    "scale": 15
+  },
+  "requirements": [
+    {
+      "id": "ancestor-path",
+      "text": "Determine ancestry using the path from the current root."
+    },
+    {
+      "id": "self-ancestry",
+      "text": "Treat each node as its own ancestor, including singleton trees."
+    },
+    {
+      "id": "logical-root",
+      "text": "Persist logical root changes without changing the given edges."
+    },
+    {
+      "id": "query-output",
+      "text": "Accept arbitrary initial edge order and print only ordered query answers."
+    }
+  ],
+  "reference_complexity": {
+    "variables": {
+      "N": "Tree nodes",
+      "Q": "Operations"
+    },
+    "time_by_phase": {
+      "Preprocessing": "O(N log N)",
+      "ROOT": "O(1)",
+      "QUERY": "O(log N)",
+      "Whole input": "O(N log N + Q log N)"
+    },
+    "auxiliary_space": "O(N log N)",
+    "notes": "Reference uses iterative traversal, one original-root index, and binary lifting. Retained input/output and recursion count toward total program space. These are reference targets, not inferred bounds for submitted code. Hard/60 minutes and limits are provisional."
+  },
+  "schema_version": 1,
+  "id": "g-tree-changing-root",
+  "version": 1,
+  "difficulty": "Hard",
+  "status": "published",
+  "suggested_duration_minutes": 60,
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  }
+}

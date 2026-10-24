@@ -10,7 +10,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from .jobs import Jobs
 from .judge import Judge
 from .languages import Registry
-from .models import ReviewRequest, RunRequest, SubmissionRequest
+from .models import MAX_REQUEST_BYTES, ReviewRequest, RunRequest, SubmissionRequest
 from .problems import Repository
 from .storage import Storage
 
@@ -36,7 +36,7 @@ class RequestGuard:
             if message["type"] == "http.disconnect":
                 return
             chunk = message.get("body", b"")
-            if len(body) + len(chunk) > 1_200_000:
+            if len(body) + len(chunk) > MAX_REQUEST_BYTES:
                 return await JSONResponse({"detail": "Request body exceeds limit"}, status_code=413)(scope, receive, send)
             body.extend(chunk)
             if not message.get("more_body"):

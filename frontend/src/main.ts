@@ -4,6 +4,7 @@ import App from './App.vue'
 import Home from './pages/Home.vue'
 import Catalog from './pages/Catalog.vue'
 import './style.css'
+import './complexity.css'
 
 const router = createRouter({history: createWebHistory(), routes: [
   {path: '/', component: Home},

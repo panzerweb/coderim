@@ -2,6 +2,12 @@
 from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+MAX_SOURCE_BYTES = 65536
+MAX_STDIN_BYTES = 8 * 1024 * 1024
+MAX_STDOUT_BYTES = 2 * 1024 * 1024
+# An ASCII control character can occupy six bytes (\\uXXXX) in JSON.
+MAX_REQUEST_BYTES = 6 * (MAX_SOURCE_BYTES + MAX_STDIN_BYTES) + 65536
+
 
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
@@ -9,9 +15,9 @@ class StrictModel(BaseModel):
 
 class Limits(StrictModel):
     time_ms: int = Field(default=2000, ge=10, le=5000)
-    source_bytes: int = Field(default=65536, ge=1, le=65536)
-    stdin_bytes: int = Field(default=1048576, ge=1, le=1048576)
-    stdout_bytes: int = Field(default=1048576, ge=1, le=1048576)
+    source_bytes: int = Field(default=65536, ge=1, le=MAX_SOURCE_BYTES)
+    stdin_bytes: int = Field(default=1048576, ge=1, le=MAX_STDIN_BYTES)
+    stdout_bytes: int = Field(default=1048576, ge=1, le=MAX_STDOUT_BYTES)
     stderr_bytes: int = Field(default=65536, ge=1, le=65536)
     memory_mb: int = Field(default=256, ge=1)
 
@@ -26,6 +32,35 @@ class Checker(StrictModel):
 class Requirement(StrictModel):
     id: str = Field(pattern=r"^[a-z0-9-]+$")
     text: str = Field(min_length=1)
+
+
+Bound = Annotated[str, Field(min_length=1, max_length=240)]
+
+
+class ReferenceComplexity(StrictModel):
+    variables: dict[str, Bound] = Field(min_length=1, max_length=10)
+    time_by_phase: dict[str, Bound] = Field(min_length=1, max_length=10)
+    auxiliary_space: Bound
+    notes: str = Field(min_length=1, max_length=4000)
+
+
+class ReviewedComplexity(StrictModel):
+    status: Literal["assessed", "unable_to_assess"]
+    worst_case_time: Bound | None = None
+    auxiliary_space: Bound | None = None
+    total_space: Bound | None = None
+    reasoning: str = Field(min_length=1, max_length=4000)
+
+    @model_validator(mode="after")
+    def valid(self):
+        if not self.reasoning.strip():
+            raise ValueError("Complexity analysis requires an explanation")
+        bounds = (self.worst_case_time, self.auxiliary_space, self.total_space)
+        if self.status == "assessed" and any(not value or not value.strip() for value in bounds):
+            raise ValueError("An assessed analysis requires all three complexity bounds")
+        if self.status == "unable_to_assess" and any(value is not None for value in bounds):
+            raise ValueError("Unable to assess must not assert complexity bounds")
+        return self
 
 
 class Rubric(StrictModel):
@@ -68,6 +103,7 @@ class ProblemMetadata(StrictModel):
     category_weights: dict[str, float]
     requirements: list[Requirement] = Field(min_length=1)
     rubric: Rubric = Field(default_factory=Rubric)
+    reference_complexity: ReferenceComplexity | None = None
 
     @model_validator(mode="after")
     def valid(self):
@@ -111,13 +147,14 @@ class SubmissionRequest(StrictModel):
 
 class RunRequest(SubmissionRequest):
     mode: Literal["samples", "custom"] = "samples"
-    stdin: str = Field(default="", max_length=1048576)
+    stdin: str = Field(default="", max_length=MAX_STDIN_BYTES)
 
 
 class ReviewRequest(StrictModel):
     readability: list[Annotated[int, Field(strict=True, ge=0, le=4)]] = Field(min_length=4, max_length=4)
     technical: list[Annotated[int, Field(strict=True, ge=0, le=4)]] = Field(min_length=4, max_length=4)
     rationale: str = Field(min_length=1, max_length=4000)
+    complexity: ReviewedComplexity | None = None
 
     @model_validator(mode="after")
     def valid(self):

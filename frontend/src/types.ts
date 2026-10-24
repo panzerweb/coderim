@@ -4,6 +4,14 @@ export interface CatalogProblem {
 export interface Rubric {
   version: number; weights: Record<string, number>; readability: string[]; technical: string[];
 }
+export interface ReferenceComplexity {
+  variables: Record<string, string>; time_by_phase: Record<string, string>;
+  auxiliary_space: string; notes: string;
+}
+export interface ReviewedComplexity {
+  status: 'assessed' | 'unable_to_assess'; worst_case_time: string | null;
+  auxiliary_space: string | null; total_space: string | null; reasoning: string;
+}
 export interface Problem extends CatalogProblem {
   statement: string;
   samples: {id: string; input: string; expected_output: string; explanation: string}[];
@@ -12,6 +20,7 @@ export interface Problem extends CatalogProblem {
   requirements: {id: string; text: string}[];
   category_weights: Record<string, number>;
   rubric: Rubric;
+  reference_complexity?: ReferenceComplexity | null;
 }
 export interface Language {id: string; label: string; editor_language: string; available: boolean; reason: string; starter: string}
 export interface Assessment {
@@ -25,9 +34,10 @@ export interface Result {
   diagnostics: string; incomplete_reason: string | null; assessment: Assessment | null;
   cases?: {id: string; verdict: string; duration_ms: number; stdout: string; stderr: string; input: string; expected_output: string | null; exit_code: number | null}[];
 }
-export interface Review {readability: number[]; technical: number[]; rationale: string; updated_at?: string}
+export interface Review {readability: number[]; technical: number[]; rationale: string; updated_at?: string; complexity?: ReviewedComplexity | null}
 export interface Attempt {
   id: string; created_at: string; problem_id: string; problem_version: number; language: string; code?: string;
   status: string; rubric: Rubric; result: Result | null; review: Review | null;
+  reference_complexity?: ReferenceComplexity | null;
 }
 export interface Job {id: string; state: string; result: Result | null; attempt_id: string | null}

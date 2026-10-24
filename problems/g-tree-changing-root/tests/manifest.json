@@ -1,0 +1,234 @@
+{
+  "cases": [
+    {
+      "id": "basic-chain",
+      "category": "basic",
+      "requirements": [
+        "query-output",
+        "ancestor-path"
+      ],
+      "input_file": "tests/basic-chain.in",
+      "output_file": "tests/basic-chain.out"
+    },
+    {
+      "id": "self-all-roots",
+      "category": "self-root",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/self-all-roots.in",
+      "output_file": "tests/self-all-roots.out"
+    },
+    {
+      "id": "root-only",
+      "category": "root-changes",
+      "requirements": [
+        "query-output",
+        "logical-root"
+      ],
+      "input_file": "tests/root-only.in",
+      "output_file": "tests/root-only.out"
+    },
+    {
+      "id": "root-chain",
+      "category": "root-changes",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root"
+      ],
+      "input_file": "tests/root-chain.in",
+      "output_file": "tests/root-chain.out"
+    },
+    {
+      "id": "branches-star",
+      "category": "branches",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/branches-star.in",
+      "output_file": "tests/branches-star.out"
+    },
+    {
+      "id": "branches-balanced",
+      "category": "branches",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root"
+      ],
+      "input_file": "tests/branches-balanced.in",
+      "output_file": "tests/branches-balanced.out"
+    },
+    {
+      "id": "shuffled-edges",
+      "category": "edge-order",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root"
+      ],
+      "input_file": "tests/shuffled-edges.in",
+      "output_file": "tests/shuffled-edges.out"
+    },
+    {
+      "id": "permuted-labels",
+      "category": "edge-order",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "self-ancestry"
+      ],
+      "input_file": "tests/permuted-labels.in",
+      "output_file": "tests/permuted-labels.out"
+    },
+    {
+      "id": "random-00",
+      "category": "branches",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-00.in",
+      "output_file": "tests/random-00.out"
+    },
+    {
+      "id": "random-01",
+      "category": "root-changes",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-01.in",
+      "output_file": "tests/random-01.out"
+    },
+    {
+      "id": "random-02",
+      "category": "branches",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-02.in",
+      "output_file": "tests/random-02.out"
+    },
+    {
+      "id": "random-03",
+      "category": "root-changes",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-03.in",
+      "output_file": "tests/random-03.out"
+    },
+    {
+      "id": "random-04",
+      "category": "branches",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-04.in",
+      "output_file": "tests/random-04.out"
+    },
+    {
+      "id": "random-05",
+      "category": "root-changes",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-05.in",
+      "output_file": "tests/random-05.out"
+    },
+    {
+      "id": "random-06",
+      "category": "branches",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-06.in",
+      "output_file": "tests/random-06.out"
+    },
+    {
+      "id": "random-07",
+      "category": "root-changes",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-07.in",
+      "output_file": "tests/random-07.out"
+    },
+    {
+      "id": "random-08",
+      "category": "branches",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-08.in",
+      "output_file": "tests/random-08.out"
+    },
+    {
+      "id": "random-09",
+      "category": "root-changes",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root",
+        "self-ancestry"
+      ],
+      "input_file": "tests/random-09.in",
+      "output_file": "tests/random-09.out"
+    },
+    {
+      "id": "scale-chain",
+      "category": "scale",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root"
+      ],
+      "input_file": "tests/scale-chain.in",
+      "output_file": "tests/scale-chain.out"
+    },
+    {
+      "id": "scale-star",
+      "category": "scale",
+      "requirements": [
+        "query-output",
+        "ancestor-path",
+        "logical-root"
+      ],
+      "input_file": "tests/scale-star.in",
+      "output_file": "tests/scale-star.out"
+    }
+  ]
+}

@@ -19,29 +19,42 @@ class Storage:
         self.db.row_factory = sqlite3.Row
         self.db.execute("PRAGMA journal_mode=WAL")
         version = self.db.execute("PRAGMA user_version").fetchone()[0]
-        if version not in (0, 1):
+        if version not in (0, 1, 2):
+            self.db.close()
             raise RuntimeError("Unsupported history database version")
-        self.db.executescript("""
-            CREATE TABLE IF NOT EXISTS attempts (
-                id TEXT PRIMARY KEY, created_at TEXT NOT NULL, problem_id TEXT NOT NULL,
-                problem_version INTEGER NOT NULL, language TEXT NOT NULL, code TEXT NOT NULL,
-                rubric_json TEXT NOT NULL, status TEXT NOT NULL, result_json TEXT,
-                review_json TEXT
-            );
-            CREATE INDEX IF NOT EXISTS attempt_groups ON attempts(problem_id, problem_version, language, created_at);
-            PRAGMA user_version=1;
-        """)
+        # DDL and the version change share one transaction. Existing snapshots are
+        # untouched; migrated attempts have no retroactively assigned target.
+        try:
+            with self.db:
+                self.db.execute("BEGIN IMMEDIATE")
+                if version == 0:
+                    self.db.execute("""CREATE TABLE attempts (
+                    id TEXT PRIMARY KEY, created_at TEXT NOT NULL, problem_id TEXT NOT NULL,
+                    problem_version INTEGER NOT NULL, language TEXT NOT NULL, code TEXT NOT NULL,
+                    rubric_json TEXT NOT NULL, status TEXT NOT NULL, result_json TEXT,
+                    review_json TEXT, complexity_context_json TEXT
+                    )""")
+                elif version == 1:
+                    self.db.execute("ALTER TABLE attempts ADD COLUMN complexity_context_json TEXT")
+                self.db.execute("CREATE INDEX IF NOT EXISTS attempt_groups ON attempts(problem_id, problem_version, language, created_at)")
+                self.db.execute("PRAGMA user_version=2")
+        except Exception:
+            self.db.close()
+            raise
         interrupted = json.dumps({"mode": "submit", "verdict": "Judge Error", "attempted": 0,
             "passed": 0, "total": 0, "duration_ms": 0, "cases": [], "assessment": None,
             "diagnostics": "", "incomplete_reason": "Backend restarted before judging completed"})
         self.db.execute("UPDATE attempts SET status='interrupted', result_json=? WHERE result_json IS NULL", (interrupted,))
         self.db.commit()
 
-    def create(self, job_id, request, rubric):
+    def create(self, job_id, request, rubric, reference_complexity=None):
         with self.lock, self.db:
-            self.db.execute("INSERT INTO attempts VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
+            self.db.execute("""INSERT INTO attempts
+                (id, created_at, problem_id, problem_version, language, code, rubric_json, status, complexity_context_json)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (job_id, now(), request.problem_id, request.problem_version, request.language,
-                 request.code, json.dumps(rubric), "queued"))
+                 request.code, json.dumps(rubric), "queued",
+                 json.dumps(reference_complexity) if reference_complexity is not None else None))
 
     def status(self, job_id, state):
         with self.lock, self.db:
@@ -56,9 +69,11 @@ class Storage:
         item = dict(row)
         rubric = json.loads(item.pop("rubric_json"))
         raw_result, raw_review = item.pop("result_json"), item.pop("review_json")
+        raw_context = item.pop("complexity_context_json")
         result = json.loads(raw_result) if raw_result else None
         review = json.loads(raw_review) if raw_review else None
-        item.update(rubric=rubric, result=result, review=review)
+        item.update(rubric=rubric, result=result, review=review,
+            reference_complexity=json.loads(raw_context) if raw_context else None)
         if result and result.get("assessment") and review:
             a = result["assessment"]
             a["readability"] = sum(review["readability"]) / 4 * 25
@@ -91,8 +106,13 @@ class Storage:
                 raise KeyError(key)
             if not item["result"] or not item["result"].get("assessment"):
                 raise ValueError("This attempt has no completed assessment to review")
+            data = review.model_dump()
+            # Older clients know only rubric ratings. Omission (or null) must
+            # preserve an existing source-bound complexity review.
+            if data["complexity"] is None:
+                data["complexity"] = (item["review"] or {}).get("complexity")
             self.db.execute("UPDATE attempts SET review_json=? WHERE id=?",
-                (json.dumps({**review.model_dump(), "updated_at": now()}), key))
+                (json.dumps({**data, "updated_at": now()}), key))
             return self.get(key)
 
     def close(self):

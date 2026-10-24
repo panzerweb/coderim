@@ -33,11 +33,18 @@ try {
   await page.getByTestId('code-editor').click({position: {x: 180, y: 50}})
   await page.keyboard.press('Control+End')
   await page.keyboard.type('// local worker check')
+  const catalog = await (await page.request.get('http://127.0.0.1:8000/api/problems')).json()
+  assert.equal(catalog.length, 3, 'All three published challenges must be discoverable')
+  for (const slug of ['longest-rising-streak-updates', 'g-tree-changing-root']) {
+    await page.goto(`http://127.0.0.1:8000/problems/${slug}`)
+    await page.getByRole('button', {name: 'Submit ↗', exact: true}).waitFor()
+    await page.getByTestId('code-editor').locator('.monaco-editor').waitFor()
+  }
   await page.screenshot({path: '../.runtime/qa-production.png', fullPage: true})
   assert.deepEqual(external, [], 'Runtime must not request external assets')
   assert.deepEqual(badResponses, [], 'Built assets and routes must load')
   assert.deepEqual(errors, [], 'No browser runtime errors')
-  console.log('Production smoke passed: deep links, Monaco edits/workers, and local-only assets.')
+  console.log('Production smoke passed: all three challenges, deep links, Monaco edits/workers, and local-only assets.')
 } finally {
   await browser.close()
 }

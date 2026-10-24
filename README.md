@@ -2,7 +2,15 @@
 
 A local coding workspace: **Home → Problem library → Code and test → Submit → Review and progress**.
 
-Vue, TypeScript, Monaco, FastAPI, file-based challenges, and SQLite history. No account, AI key, or cloud service. The first challenge is **The Broken Code Formatter** (Hard): six samples and 59 hidden cases.
+Vue, TypeScript, Monaco, FastAPI, file-based challenges, and SQLite history. No account, AI key, or cloud service.
+
+| Challenge | Official cases | Practice target |
+| --- | ---: | --- |
+| The Broken Code Formatter | 65 (six samples) | Hard / 60 minutes |
+| Longest Rising Streak with Updates | 28 (three samples) | Provisional Hard / 60 minutes |
+| G-Tree: Ancestors with a Changing Root | 23 (three samples) | Provisional Hard / 60 minutes |
+
+The two new challenges target university DSA students: point updates/range queries for streaks, and logical root changes for tree ancestry. Their difficulty, duration, and 5-second execution limits remain provisional until piloted with representative students on the intended machine.
 
 ## Windows quick start
 
@@ -23,6 +31,10 @@ Programs run with the operating-system permissions of this computer's user. Use 
 .\scripts\setup.ps1 -Dev
 .\.venv\Scripts\python.exe -m unittest discover -s backend/tests -v
 .\.venv\Scripts\python.exe tools/verify_problem.py broken-code-formatter
+.\.venv\Scripts\python.exe tools/verify_problem.py longest-rising-streak-updates
+.\.venv\Scripts\python.exe tools/verify_problem.py g-tree-changing-root
+.\.venv\Scripts\python.exe tools/verify_hard_problems.py
+.\.venv\Scripts\python.exe tools/verify_demo_solutions.py
 ```
 
 For frontend development, run the backend as above and run `npm run dev` inside `frontend/`. Open http://127.0.0.1:5173. The Vite server proxies `/api` to the backend.
@@ -44,6 +56,10 @@ For macOS/Linux: create `.venv` with `python3 -m venv .venv`, install `backend/r
 
 Functional Correctness (50%) and Requirement Completion (20%) are calculated from the official suite. Readability (15%) and Technical Quality (15%) are reviewed manually on each saved source snapshot. Missing reviews remain pending. **Accepted always means every official test passed**; rubric points cannot override the verdict.
 
+Human reviews can record worst-case time, auxiliary space, total space including stored input/output, and reasoning. Select **Assessed** to enter all three bounds, or **Unable to assess** with an explanation. Reference targets are shown separately and frozen with each new attempt; runtime measurements never become automatic Big-O claims. These annotations support the existing Technical Quality rating without adding a fifth score. Old attempts without saved analysis/context display **Not assessed**.
+
 Drafts live in browser storage, keyed by problem/version/language. Official submissions, frozen rubrics, judge results, and reviews live in `.runtime/history.sqlite3`. Restarting the backend interrupts unfinished jobs but preserves completed attempts. The timeline shows the latest 200 attempts for the current version/language. Runs are transient and never contribute to official scores.
+
+SQLite migrates schema 1 to 2 transactionally on startup, preserving original snapshots and ratings. The new context column is nullable for old attempts. Existing review clients can omit complexity fields without erasing saved analysis.
 
 See [judging rules](docs/judging-rules.md), [adding problems](docs/adding-problems.md), [language setup](docs/adding-languages.md), and [local setup](docs/local-setup.md). The reconciled implementation specification is [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md); the original blueprint remains for reference.

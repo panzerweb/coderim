@@ -1,0 +1,291 @@
+{
+  "cases": [
+    {
+      "id": "basic-01",
+      "category": "basic",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/basic-01.in",
+      "output_file": "tests/basic-01.out"
+    },
+    {
+      "id": "basic-02",
+      "category": "basic",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/basic-02.in",
+      "output_file": "tests/basic-02.out"
+    },
+    {
+      "id": "basic-03",
+      "category": "basic",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/basic-03.in",
+      "output_file": "tests/basic-03.out"
+    },
+    {
+      "id": "basic-04",
+      "category": "basic",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/basic-04.in",
+      "output_file": "tests/basic-04.out"
+    },
+    {
+      "id": "equality-01",
+      "category": "equality-boundaries",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/equality-01.in",
+      "output_file": "tests/equality-01.out"
+    },
+    {
+      "id": "equality-02",
+      "category": "equality-boundaries",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/equality-02.in",
+      "output_file": "tests/equality-02.out"
+    },
+    {
+      "id": "updates-01",
+      "category": "updates",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/updates-01.in",
+      "output_file": "tests/updates-01.out"
+    },
+    {
+      "id": "updates-only",
+      "category": "updates",
+      "requirements": [
+        "independent-cases",
+        "persistent-updates"
+      ],
+      "input_file": "tests/updates-only.in",
+      "output_file": "tests/updates-only.out"
+    },
+    {
+      "id": "ranges-3",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/ranges-3.in",
+      "output_file": "tests/ranges-3.out"
+    },
+    {
+      "id": "ranges-5",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/ranges-5.in",
+      "output_file": "tests/ranges-5.out"
+    },
+    {
+      "id": "ranges-7",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/ranges-7.in",
+      "output_file": "tests/ranges-7.out"
+    },
+    {
+      "id": "ranges-11",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/ranges-11.in",
+      "output_file": "tests/ranges-11.out"
+    },
+    {
+      "id": "ranges-17",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/ranges-17.in",
+      "output_file": "tests/ranges-17.out"
+    },
+    {
+      "id": "multiple-01",
+      "category": "multiple-testcases",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/multiple-01.in",
+      "output_file": "tests/multiple-01.out"
+    },
+    {
+      "id": "multiple-reset",
+      "category": "multiple-testcases",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/multiple-reset.in",
+      "output_file": "tests/multiple-reset.out"
+    },
+    {
+      "id": "random-00",
+      "category": "updates",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/random-00.in",
+      "output_file": "tests/random-00.out"
+    },
+    {
+      "id": "random-01",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/random-01.in",
+      "output_file": "tests/random-01.out"
+    },
+    {
+      "id": "random-02",
+      "category": "updates",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/random-02.in",
+      "output_file": "tests/random-02.out"
+    },
+    {
+      "id": "random-03",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/random-03.in",
+      "output_file": "tests/random-03.out"
+    },
+    {
+      "id": "random-04",
+      "category": "updates",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/random-04.in",
+      "output_file": "tests/random-04.out"
+    },
+    {
+      "id": "random-05",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/random-05.in",
+      "output_file": "tests/random-05.out"
+    },
+    {
+      "id": "random-06",
+      "category": "updates",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/random-06.in",
+      "output_file": "tests/random-06.out"
+    },
+    {
+      "id": "random-07",
+      "category": "range-merging",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/random-07.in",
+      "output_file": "tests/random-07.out"
+    },
+    {
+      "id": "scale-max",
+      "category": "scale",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries",
+        "persistent-updates"
+      ],
+      "input_file": "tests/scale-max.in",
+      "output_file": "tests/scale-max.out"
+    },
+    {
+      "id": "scale-many-outputs",
+      "category": "scale",
+      "requirements": [
+        "independent-cases",
+        "strict-streak",
+        "query-boundaries"
+      ],
+      "input_file": "tests/scale-many-outputs.in",
+      "output_file": "tests/scale-many-outputs.out"
+    }
+  ]
+}

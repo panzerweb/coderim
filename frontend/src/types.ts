@@ -36,8 +36,10 @@ export interface Result {
 }
 export interface Review {readability: number[]; technical: number[]; rationale: string; updated_at?: string; complexity?: ReviewedComplexity | null}
 export interface Attempt {
+  team_name?: string | null
   id: string; created_at: string; problem_id: string; problem_version: number; language: string; code?: string;
   status: string; rubric: Rubric; result: Result | null; review: Review | null;
   reference_complexity?: ReferenceComplexity | null;
+  team_id?: string | null; contest_id?: string | null; eligible_at?: string | null;
 }
 export interface Job {id: string; state: string; result: Result | null; attempt_id: string | null}

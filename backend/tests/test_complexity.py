@@ -51,7 +51,7 @@ class ComplexityTests(unittest.TestCase):
             database.execute('INSERT INTO attempts VALUES (?,?,?,?,?,?,?,?,?,?)', originals)
             database.commit(); database.close()
             storage = Storage(path)
-            self.assertEqual(storage.db.execute('PRAGMA user_version').fetchone()[0], 2)
+            self.assertEqual(storage.db.execute('PRAGMA user_version').fetchone()[0], 3)
             self.assertEqual(tuple(storage.db.execute('SELECT id, created_at, problem_id, problem_version, language, code, rubric_json, status, result_json, review_json FROM attempts').fetchone()), originals)
             old = storage.get('old')
             self.assertIsNone(old['reference_complexity'])

@@ -3,12 +3,14 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import MarkdownIt from 'markdown-it'
 import DOMPurify from 'dompurify'
-import { api, draftKey } from '../api'
+import { api, ApiError, draftKey } from '../api'
 import type { Attempt, Job, Language, Problem, Result, ReviewedComplexity } from '../types'
 import CodeEditor from '../components/CodeEditor.vue'
 import JudgeResults from '../components/JudgeResults.vue'
 import Trajectory from '../components/Trajectory.vue'
 import ComplexityAnalysis from '../components/ComplexityAnalysis.vue'
+import { clientState, workspaceScope } from '../clientState'
+import { refreshTeam } from '../session'
 
 const route = useRoute()
 const problem = ref<Problem>()
@@ -28,6 +30,10 @@ const attempts = ref<Attempt[]>([])
 const selected = ref<Attempt>()
 const currentAttemptId = ref<string | null>(null)
 const currentAttempt = ref<Attempt>()
+const pendingRecord = ref<{key:string;payload:unknown}|null>(null)
+const isHosted = computed(()=>clientState.mode==='contest')
+const canExecute = computed(()=>!isHosted.value || clientState.team?.contest?.phase==='active')
+const pendingKey = computed(()=>`code-relay:${workspaceScope()}:pending:${route.params.id}`)
 const ratingsRead = ref<(number | null)[]>([null, null, null, null])
 const ratingsTech = ref<(number | null)[]>([null, null, null, null])
 const rationale = ref('')
@@ -42,12 +48,13 @@ const split = ref(39)
 let disposed = false
 let inspection = 0
 let pollTimer: ReturnType<typeof setTimeout> | undefined
+let contestTimer: ReturnType<typeof setInterval> | undefined
 const activeJob = ref<string | null>(null)
 const md = new MarkdownIt({html: false, linkify: false})
 const statement = computed(() => DOMPurify.sanitize(md.render(problem.value?.statement || '')))
 const editorLanguage = computed(() => languages.value.find(l => l.id === language.value)?.editor_language || 'plaintext')
 const available = computed(() => languages.value.some(l => l.id === language.value && l.available))
-const groupKey = computed(() => problem.value ? `code-relay:job:${problem.value.id}:v${problem.value.version}:${language.value}` : '')
+const groupKey = computed(() => problem.value ? `code-relay:job:${workspaceScope()}:${problem.value.id}:v${problem.value.version}:${language.value}` : '')
 
 function storageGet(key: string) {
   try { return localStorage.getItem(key) } catch { storageWarning.value = 'Browser storage is unavailable. Copy your draft before leaving.'; return null }
@@ -85,7 +92,7 @@ async function poll(id: string) {
     const job = await api<Job>(`/jobs/${id}`)
     if (disposed) return
     state.value = job.state
-    if (job.state === 'completed' || job.state === 'failed') {
+    if (job.state === 'completed' || job.state === 'failed' || job.state === 'interrupted') {
       result.value = job.result ?? undefined; currentAttemptId.value = job.attempt_id
       if (job.attempt_id) currentAttempt.value = await api<Attempt>(`/attempts/${job.attempt_id}`)
       if (disposed) return
@@ -100,16 +107,38 @@ async function poll(id: string) {
 }
 function retryPoll() { if (activeJob.value) { error.value = ''; busy.value = true; void poll(activeJob.value) } }
 async function execute(mode: 'samples' | 'custom' | 'submit') {
-  if (!problem.value || busy.value || !available.value) return
+  if (!problem.value || busy.value || !available.value || !canExecute.value) return
   if (!code.value.trim()) { error.value = 'Write a solution before running or submitting.'; return }
+  if (isHosted.value && pendingRecord.value) { error.value='Resolve the pending recording before running or recording again.'; return }
+  if (isHosted.value && mode==='submit' && !window.confirm(`Record an official submission for ${clientState.team?.team_name} on ${problem.value.title}? This immutable source snapshot counts as an official attempt.`)) return
   error.value = ''; busy.value = true; state.value = 'queued'; result.value = undefined; tab.value = 'results'; currentAttempt.value = undefined
   const payload = {problem_id: problem.value.id, problem_version: problem.value.version, language: language.value, code: code.value,
     ...(mode !== 'submit' ? {mode, stdin: mode === 'custom' ? customInput.value : ''} : {})}
   try {
-    const response = await api<{job_id: string; attempt_id: string | null}>(mode === 'submit' ? '/submissions' : '/runs', {method: 'POST', body: JSON.stringify(payload)})
+    let key: string|undefined
+    if (isHosted.value && mode==='submit') {
+      key=crypto.randomUUID();pendingRecord.value={key,payload}
+      try{sessionStorage.setItem(pendingKey.value,JSON.stringify(pendingRecord.value))}catch{/* Current-page retry remains available. */}
+    }
+    const response = await api<{job_id: string; attempt_id: string | null}>(mode === 'submit' ? '/submissions' : '/runs', {method: 'POST', body: JSON.stringify(payload), headers:key?{'Idempotency-Key':key}:{}})
+    pendingRecord.value=null;try{sessionStorage.removeItem(pendingKey.value)}catch{/* no-op */}
     currentAttemptId.value = response.attempt_id; activeJob.value = response.job_id; rememberJob(activeJob.value)
     await poll(activeJob.value)
-  } catch (e) { if (!disposed) { error.value = (e as Error).message; busy.value = false } }
+  } catch (e) { if (!disposed) { clearRejectedRecord(e); error.value = (e as Error).message; busy.value = false } }
+}
+function clearRejectedRecord(error:unknown){
+  if(error instanceof ApiError && error.status>=400 && error.status<500 && error.status!==401){
+    pendingRecord.value=null;try{sessionStorage.removeItem(pendingKey.value)}catch{/* no-op */}
+  }
+}
+async function retryRecord() {
+  if(!pendingRecord.value||busy.value)return
+  busy.value=true;error.value=''
+  try {
+    const response=await api<{job_id:string;attempt_id:string}>('/submissions',{method:'POST',body:JSON.stringify(pendingRecord.value.payload),headers:{'Idempotency-Key':pendingRecord.value.key}})
+    pendingRecord.value=null;try{sessionStorage.removeItem(pendingKey.value)}catch{/* no-op */}
+    currentAttemptId.value=response.attempt_id;activeJob.value=response.job_id;rememberJob(response.job_id);tab.value='results';await poll(response.job_id)
+  }catch(e){clearRejectedRecord(e);error.value=(e as Error).message;busy.value=false}
 }
 function reset() {
   if (problem.value && window.confirm('Replace your current draft with the starter program?')) {
@@ -178,16 +207,18 @@ async function load() {
     const [p, langs] = await Promise.all([api<Problem>(`/problems/${encodeURIComponent(String(route.params.id))}`), api<Language[]>('/languages')])
     if (disposed) return
     problem.value = p; languages.value = langs
+    if(isHosted.value){try{const saved=sessionStorage.getItem(pendingKey.value);pendingRecord.value=saved?JSON.parse(saved):null}catch{pendingRecord.value=null}}
+    const pendingLanguage=(pendingRecord.value?.payload as {language?:string})?.language
     const savedLanguage = storageGet(`code-relay:language:${p.id}`)
-    language.value = langs.find(l => l.id === savedLanguage && l.available)?.id || langs.find(l => l.available)?.id || langs[0]?.id || ''
+    language.value = langs.find(l=>l.id===pendingLanguage)?.id || langs.find(l => l.id === savedLanguage && l.available)?.id || langs.find(l => l.available)?.id || langs[0]?.id || ''
     loadDraft(); await loadHistory()
     try { activeJob.value = sessionStorage.getItem(groupKey.value) } catch { activeJob.value = null }
     if (activeJob.value) { busy.value = true; void poll(activeJob.value) }
   } catch (e) { error.value = (e as Error).message }
   finally { loading.value = false }
 }
-onMounted(() => { void load(); window.addEventListener('keydown', keyboard) })
-onBeforeUnmount(() => { disposed = true; clearTimeout(pollTimer); window.removeEventListener('keydown', keyboard) })
+onMounted(() => { void load(); window.addEventListener('keydown', keyboard);if(isHosted.value)contestTimer=setInterval(()=>{void refreshTeam().catch(()=>{/* The API displays execution errors and handles expiry. */})},5000) })
+onBeforeUnmount(() => { disposed = true; clearTimeout(pollTimer);clearInterval(contestTimer); window.removeEventListener('keydown', keyboard) })
 </script>
 
 <template>
@@ -198,6 +229,8 @@ onBeforeUnmount(() => { disposed = true; clearTimeout(pollTimer); window.removeE
       <div class="workspace-heading"><div><RouterLink to="/problems" class="back-link">← Problem library</RouterLink><h1>{{ problem.title }}</h1></div><div class="workspace-meta"><span class="difficulty">{{ problem.difficulty }}</span><span>{{ problem.suggested_duration_minutes }} min suggested</span><span>v{{ problem.version }}</span></div></div>
       <div v-if="error" class="error-box workspace-error" role="alert">{{ error }} <button v-if="activeJob && !busy" @click="retryPoll">Retry job status</button><button @click="error = ''" aria-label="Dismiss error">×</button></div>
       <div v-if="storageWarning" class="warning-box" role="status">{{ storageWarning }}</div>
+      <div v-if="pendingRecord" class="warning-box" role="status">A recording request needs reconciliation. Retrying uses its frozen source and original request key.<button @click="retryRecord" :disabled="busy">Retry pending recording</button></div>
+      <p v-if="isHosted && !canExecute" class="warning-box">This contest is read-only. Existing admitted submissions may still finish judging.</p>
       <div class="workspace-panels" :style="{'--statement-width': `${split}%`}">
         <section class="statement-panel" aria-label="Problem statement">
           <div class="panel-title"><span>THE CHALLENGE</span><span>{{ problem.tags.join(' / ') }}</span></div>
@@ -207,17 +240,17 @@ onBeforeUnmount(() => { disposed = true; clearTimeout(pollTimer); window.removeE
           <label class="resize-control">Panel width <input v-model.number="split" aria-label="Statement panel width" type="range" min="25" max="55"></label>
         </section>
         <section class="solution-panel" aria-label="Solution workspace">
-          <div class="editor-toolbar"><label for="language">LANGUAGE</label><select id="language" v-model="language" :disabled="busy"><option v-for="lang in languages" :key="lang.id" :value="lang.id" :disabled="!lang.available">{{ lang.label }}{{ lang.available ? '' : ' — unavailable' }}</option></select><button class="quiet" @click="reset" :disabled="busy">Reset starter</button><span class="draft-status">{{ storageWarning ? 'Draft not saved' : '● Draft saved locally' }}</span></div>
+          <div class="editor-toolbar"><label for="language">LANGUAGE</label><select id="language" v-model="language" :disabled="busy || !!pendingRecord"><option v-for="lang in languages" :key="lang.id" :value="lang.id" :disabled="!lang.available">{{ lang.label }}{{ lang.available ? '' : ' — unavailable' }}</option></select><button class="quiet" @click="reset" :disabled="busy">Reset starter</button><span class="draft-status">{{ storageWarning ? 'Draft not saved' : '● Draft saved locally' }}</span></div>
           <CodeEditor v-model="code" :language="editorLanguage" />
-          <div class="run-toolbar"><label><input v-model="custom" type="checkbox"> Custom input</label><span v-if="busy" class="job-state" role="status">{{ state }}…</span><button :disabled="busy || !available" @click="execute(custom ? 'custom' : 'samples')">▷ {{ custom ? 'Run input' : 'Run samples' }}</button><button class="primary" :disabled="busy || !available" @click="execute('submit')">Submit ↗</button></div>
+          <div class="run-toolbar"><label><input v-model="custom" type="checkbox"> Custom input</label><span v-if="busy" class="job-state" role="status">{{ state }}…</span><button :disabled="busy || !available || !canExecute || !!pendingRecord" @click="execute(custom ? 'custom' : 'samples')">▷ {{ custom ? 'Run input' : isHosted ? 'Run Code' : 'Run samples' }}</button><button class="primary" :disabled="busy || !available || !canExecute || !!pendingRecord" @click="execute('submit')">{{ isHosted?'Record Submission':'Submit ↗' }}</button></div>
           <div v-if="custom" class="custom-input"><label for="stdin">Standard input</label><textarea id="stdin" v-model="customInput" spellcheck="false" placeholder="Enter the exact input to send to your program…"></textarea></div>
           <div class="results-tabs" role="tablist" aria-label="Workspace output"><button role="tab" :aria-selected="tab === 'results'" :class="{active: tab === 'results'}" @click="tab = 'results'">Results</button><button role="tab" :aria-selected="tab === 'history'" :class="{active: tab === 'history'}" @click="tab = 'history'; loadHistory()">History & review <span>{{ attempts.length }}</span></button><span>Ctrl+Enter to run · Ctrl+Shift+Enter to submit</span></div>
           <div class="results-content">
             <template v-if="tab === 'results'">
               <JudgeResults v-if="result" :result="result" :rubric="problem.rubric" />
               <ComplexityAnalysis v-if="result?.assessment && currentAttempt" :reference="currentAttempt.reference_complexity" :analysis="currentAttempt.review?.complexity" />
-              <div v-else class="results-empty"><span>[ ]</span><h3>Your next result starts here.</h3><p>Try the samples, explore an edge case, or submit against the full test suite.</p></div>
-              <button v-if="currentAttemptId && result?.assessment" class="review-link" @click="reviewCurrent">Review this attempt’s code quality →</button>
+              <div v-if="!result" class="results-empty"><span>[ ]</span><h3>Your next result starts here.</h3><p>Try the samples, explore an edge case, or submit against the full test suite.</p></div>
+              <button v-if="currentAttemptId && result?.assessment" class="review-link" @click="reviewCurrent">{{ isHosted?'View saved source & feedback →':'Review this attempt’s code quality →' }}</button>
             </template>
             <template v-else>
               <Trajectory :attempts="attempts" />
@@ -227,7 +260,7 @@ onBeforeUnmount(() => { disposed = true; clearTimeout(pollTimer); window.removeE
                 <div class="section-heading"><h3>Saved source · {{ date(selected.created_at) }}</h3><button @click="restore" :disabled="busy">Restore to editor</button></div><pre class="source-snapshot">{{ selected.code }}</pre>
                 <JudgeResults v-if="selected.result" :result="selected.result" :rubric="selected.rubric" />
                 <ComplexityAnalysis :reference="selected.reference_complexity" :analysis="selected.review?.complexity" />
-                <form v-if="selected.result?.assessment" class="review-form" @submit.prevent="saveReview">
+                <form v-if="selected.result?.assessment && !isHosted" class="review-form" @submit.prevent="saveReview">
                   <h3>Human code review</h3><p>Review the saved source above. 0 = missing, 1 = weak, 2 = partial, 3 = good, 4 = strong. Useful clarity matters; extra comments or abstraction do not earn automatic credit.</p>
                   <fieldset><legend>Readability and maintainability · {{ selected.rubric.weights.readability }}%</legend><label v-for="(dimension, i) in selected.rubric.readability" :key="dimension">{{ dimension }}<select v-model="ratingsRead[i]" :aria-label="`Readability: ${dimension}`" required><option :value="null" disabled>Select rating</option><option v-for="n in [0, 1, 2, 3, 4]" :key="n" :value="n">{{ n }}</option></select></label></fieldset>
                   <fieldset><legend>Organization and technical quality · {{ selected.rubric.weights.technical }}%</legend><label v-for="(dimension, i) in selected.rubric.technical" :key="dimension">{{ dimension }}<select v-model="ratingsTech[i]" :aria-label="`Technical quality: ${dimension}`" required><option :value="null" disabled>Select rating</option><option v-for="n in [0, 1, 2, 3, 4]" :key="n" :value="n">{{ n }}</option></select></label></fieldset>
@@ -249,7 +282,7 @@ onBeforeUnmount(() => { disposed = true; clearTimeout(pollTimer); window.removeE
           </div>
         </section>
       </div>
-      <div class="workspace-footnote"><span>{{ problem.limits.time_ms / 1000 }}s per case · {{ problem.limits.memory_mb }} MB target (unenforced locally)</span><span>Trusted local code · human reviews are local assessments</span></div>
+      <div class="workspace-footnote"><span>{{ problem.limits.time_ms / 1000 }}s per case · {{ problem.limits.memory_mb }} MB {{ clientState.memoryEnforced?'managed judge limit':'target (unenforced locally)' }}</span><span>{{ isHosted?'Private team history · Organizer-reviewed code quality':'Trusted local code · human reviews are local assessments' }}</span></div>
       <p v-for="lang in languages.filter(l => !l.available)" :key="lang.id" class="language-note">{{ lang.label }} unavailable: {{ lang.reason }}</p>
     </template>
   </main>

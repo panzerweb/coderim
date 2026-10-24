@@ -1,5 +1,9 @@
 # Code Relay Judge — reconciled implementation specification
 
+The current provider-free team workflow is documented in [the quick start](docs/team-contest-quickstart.md). It keeps the original automatic judge, adds team-owned SQLite history and organizer reviews, permits publication without provider verification, and adds an explicit manual start action. Managed execution is optional; public local execution requires deliberate trusted-code configuration. See [deployment](docs/hosted-contests.md).
+
+The hosted-team revision is specified in [docs/team-contests-implementation.md](docs/team-contests-implementation.md), with deployment and rollout steps in [docs/hosted-contests.md](docs/hosted-contests.md). It supersedes this document's local-only identity, review access, and restart behavior when `RELAY_MODE=contest`; practice mode retains the original workflow.
+
 This implementation preserves the architecture of `code_relay_judge_implementation_plan.md` and incorporates the approved assessment/progress changes. The original document's in-memory-only history, stop-at-first-failure rule, and no-database default are superseded here.
 
 ## User flow

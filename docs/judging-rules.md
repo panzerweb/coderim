@@ -1,5 +1,7 @@
 # Judging and assessment
 
+Team contests retain these scoring rules and restrict reviews to organizers. The provider-free local executor uses the original compile-once judge and 120-second job budget. Optional managed execution uses independent remote cases and a persisted 600-second budget. See [contest operation](hosted-contests.md). Only the authenticated team's source/history/results are visible to it.
+
 Run samples to compare visible expected outputs, or run custom input to inspect stdout/stderr and exit status. Custom input never produces a correctness score. Submit compiles once and runs samples plus all hidden cases in deterministic manifest order, each in a fresh process and working directory.
 
 The first failing case determines the verdict, while subsequent cases still run to calculate assessment coverage. Verdicts: Accepted, Wrong Answer, Compile Error, Runtime Error, Time Limit Exceeded, Output Limit Exceeded, and Judge Error. A successful custom run is Completed. Compiler diagnostics are capped independently. Per-case stdout/stderr caps and a separate compiler timeout are enforced; there is no Memory Limit Exceeded claim.

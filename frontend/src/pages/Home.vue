@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { clientState } from '../clientState'
 </script>
 
 <template>
@@ -9,7 +10,7 @@ import { RouterLink } from 'vue-router'
       <div class="hero-copy">
         <h1>Think it through.<br>Code it out.<br><em>Make it better.</em></h1>
         <p>Take on a problem, put your solution to the test, and see how it improves with every attempt.</p>
-        <RouterLink to="/problems" class="button primary large">Start practicing <span>↗</span></RouterLink>
+        <RouterLink :to="clientState.mode==='contest' ? (clientState.team?'/dashboard':'/join') : '/problems'" class="button primary large">{{ clientState.mode==='contest'?'Enter Code Relay':'Start practicing' }} <span>↗</span></RouterLink>
         <div class="hero-note">YOUR CODE. YOUR MACHINE. YOUR PROGRESS.</div>
       </div>
       <div class="hero-preview" aria-label="Example of a solution progress view">
@@ -25,6 +26,6 @@ import { RouterLink } from 'vue-router'
       <article><span>02 / BUILD</span><h2>Find your approach.</h2><p>Write a complete program. Try the samples and your own edge cases.</p></article>
       <article><span>03 / IMPROVE</span><h2>Follow your progress.</h2><p>Submit, review the evidence, and refine your solution across attempts.</p></article>
     </section>
-    <aside class="practice-note">Local practice runs your programs on this computer. Use code you trust. Human reviews assess clarity and technical quality separately from test results.</aside>
+    <aside class="practice-note">{{ clientState.mode==='contest'?'Join with your organizer-provided team code. Official attempts and feedback are private to your team. Test results are calculated automatically; organizers review code quality.':'Local practice runs your programs on this computer. Use code you trust. Human reviews assess clarity and technical quality separately from test results.' }}</aside>
   </main>
 </template>

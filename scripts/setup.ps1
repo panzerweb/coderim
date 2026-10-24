@@ -17,5 +17,5 @@ try {
     } finally { Pop-Location }
     & '.\.venv\Scripts\python.exe' tools/validate_problems.py
     if ($LASTEXITCODE -ne 0) { throw 'Problem validation failed.' }
-    Write-Host 'Setup complete. Run .\scripts\start.ps1 and open http://127.0.0.1:8000'
+    Write-Host 'Setup complete. Use .\scripts\start-contest.ps1 for teams/organizers, or .\scripts\start.ps1 for practice.'
 } finally { Pop-Location }

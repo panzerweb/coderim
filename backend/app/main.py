@@ -78,7 +78,18 @@ def create_app(problem_root: Path | None = None, runtime: Path | None = None, re
     app.add_middleware(RequestGuard, origins=origins)
     app.add_middleware(CORSMiddleware, allow_origins=sorted(origins), allow_methods=["GET", "POST", "PUT"],
         allow_headers=["Content-Type"], allow_credentials=False)
-    app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "[::1]"])
+    
+    allowed_hosts = ["localhost", "127.0.0.1", "[::1]"]
+
+    render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+    if render_hostname:
+        allowed_hosts.append(render_hostname)
+
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=allowed_hosts,
+    )
+    # app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "[::1]"])
 
     def problem(key):
         p = app.state.repository.get(key)

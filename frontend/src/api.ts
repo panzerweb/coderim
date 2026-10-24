@@ -1,13 +1,23 @@
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+
 export async function api<T>(path: string, options?: RequestInit): Promise<T> {
   let response: Response;
   try {
-    response = await fetch(`/api${path}`, { ...options, headers: {'Content-Type': 'application/json', ...options?.headers} });
+    response = await fetch(`${API_BASE}/api${path}`, {
+      ...options,
+      headers: { "Content-Type": "application/json", ...options?.headers },
+    });
   } catch {
-    throw new Error('Cannot reach the local judge. Start the backend and try again.');
+    throw new Error(
+      "Cannot reach the local judge. Start the backend and try again.",
+    );
   }
   if (!response.ok) {
     const data = await response.json().catch(() => ({}));
-    const message = typeof data.detail === 'string' ? data.detail : 'The request could not be processed.';
+    const message =
+      typeof data.detail === "string"
+        ? data.detail
+        : "The request could not be processed.";
     throw new Error(`${message} (${response.status})`);
   }
   return response.json() as Promise<T>;

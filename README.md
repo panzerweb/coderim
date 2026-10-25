@@ -36,38 +36,97 @@ After updating, restart the backend to discover new packages. Existing published
 
 ## Deploying with ngrok
 
-This setup runs Code Relay on one hosting computer and exposes it through an HTTPS ngrok URL. No Judge0 account is required.
+This Windows/PowerShell guide runs Code Relay on one hosting computer (the server) and exposes it through an HTTPS ngrok URL. No Judge0 account is required. The same backend serves the built frontend, so no separate frontend server is needed.
 
-All teams connect to the same hosting computer through their browsers.
+**Only the hosting computer clones this repository and installs the toolchains.** Team/client devices need an up-to-date browser, an internet connection, and the public ngrok URL. They do not install Python, Node.js, Java, C++, Git, or ngrok. Submitted programs compile and run on the hosting computer.
 
 ### Prerequisites
 
-Install the following on the hosting computer:
+Install these prerequisites on the **hosting computer** before running setup. Use installers matching your computer's architecture; the C++ instructions below assume 64-bit Windows on an x64 processor.
 
-- Git
-- Python 3.12 or newer
-- Node.js 22.12 or newer
-- ngrok, with its authentication token configured
+| Software | Requirement / purpose | Official installation link |
+| --- | --- | --- |
+| Git | Clone and update the repository | [Git for Windows](https://git-scm.com/install/windows) |
+| Python | Python 3.12 is the verified baseline; include pip and venv for the backend and Python submissions | [Windows downloads](https://www.python.org/downloads/windows/) · [Windows installation guide](https://docs.python.org/3/using/windows.html) |
+| Node.js and npm | Node.js 22.12+; use a current 22.x patch to match the project's baseline. Needed to build the frontend and execute JavaScript submissions | [Node.js downloads](https://nodejs.org/en/download) |
+| ngrok | Public HTTPS tunnel; an ngrok account and authtoken are required | [Windows installation and account setup](https://ngrok.com/download/windows?tab=download) |
+| JDK | JDK 17+ for Java submissions; both `java` and `javac` must be available | [Eclipse Temurin downloads](https://adoptium.net/temurin/releases/?version=17) · [Windows installer guide](https://adoptium.net/installation/windows/) |
+| g++ | C++17-capable compiler for C++ submissions | [MSYS2 installation guide](https://www.msys2.org/) |
 
-For Java and C++ submissions, also install a JDK and `g++`. Languages with unavailable toolchains are disabled individually.
+Java and C++ toolchains are optional if you will not offer those languages. Missing or failed toolchain probes disable the affected language individually. Python and Node.js are needed for the application setup.
+
+#### Install Git, Python, Node.js, and ngrok
+
+1. Install Git for Windows with command-line access enabled.
+2. Install Python with pip and venv. With a traditional installer, enable **Add python.exe to PATH**. With the Python install manager, install the manager from the official page and run `py install 3.12`. Before continuing, confirm that `python --version` resolves to the intended runtime; see the linked Python guide if another installation or a Windows app alias takes precedence.
+3. On the Node.js download page, select **22.x**, Windows, and the installer for your architecture. Keep npm and the PATH option enabled.
+4. Install ngrok using its Windows instructions and create an account. The authtoken is configured in step 2 below.
+5. Close and reopen PowerShell after installing software or changing PATH.
+
+#### Enable Java submissions
+
+Download the Temurin **JDK**, not only a JRE. Select version 17, Windows, and the installer for your architecture. Enable **Add to PATH** and **JAVA_HOME** in the installer. Reopen PowerShell and verify both `java -version` and `javac -version`.
+
+#### Enable C++ submissions
+
+Install MSYS2 using its official guide. Open the **MSYS2 UCRT64** terminal and update its packages:
+
+```bash
+pacman -Syu
+```
+
+If prompted to close the terminal, reopen **MSYS2 UCRT64** and run that update command again. Then install GCC:
+
+```bash
+pacman -S --needed mingw-w64-ucrt-x86_64-gcc
+```
+
+Add `C:\msys64\ucrt64\bin` to your Windows user **Path** through **Edit environment variables for your account → Path → Edit → New**. Adjust that path if MSYS2 was installed elsewhere. Reopen PowerShell; `g++ --version` must work there, because the backend starts from PowerShell.
+
+#### Verify the hosting computer
+
+Run these in a new PowerShell terminal:
+
+```powershell
+git --version
+python --version
+python -m pip --version
+node --version
+npm.cmd --version
+ngrok version
+
+# Required only when offering Java and C++:
+java -version
+javac -version
+g++ --version
+```
+
+Resolve any missing commands before continuing. Restart the backend after adding a toolchain. The project setup script installs Python/npm project dependencies and builds the frontend; it does **not** install these system prerequisites. No separate SQLite installation is required.
 
 This uses the existing trusted-code executor. Participant programs run on the hosting computer; it is not a security sandbox.
 
 ### 1. Clone and initialize the project
 
-Clone the repository, then open PowerShell inside the cloned project directory.
-
-Run:
+Open PowerShell in the folder where you want to keep the project:
 
 ```powershell
+git clone https://github.com/panzerweb/coderim.git
+cd coderim
+
 $env:VITE_API_BASE_URL = ""
 
 powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+```
 
+Setup needs internet access to download dependencies. Wait for **Setup complete** before proceeding. Clearing `VITE_API_BASE_URL` makes the frontend use this same server for API requests.
+
+For a new, empty installation, initialize the organizer account:
+
+```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\start-contest.ps1
 ```
 
-On the first launch, the terminal prompts you to create an organizer username and password.
+On the first launch, the terminal prompts you to create an organizer username and a password of at least 12 characters. Password input is hidden while typing; enter it twice. This also creates the local database. If you are moving an existing contest to this computer, follow **Moving an existing server to another computer** below before this initialization step.
 
 The launcher also generates and saves the session secret at:
 
@@ -79,7 +138,13 @@ Once the server starts successfully, press **Ctrl+C** to stop it before configur
 
 ### 2. Start ngrok
 
-Open a second terminal and run:
+Open a second PowerShell terminal. Configure your ngrok authtoken once on this hosting computer, using the token from your ngrok account:
+
+```powershell
+ngrok config add-authtoken "YOUR_NGROK_AUTHTOKEN"
+```
+
+Then start the tunnel:
 
 ```powershell
 ngrok http 127.0.0.1:8000
@@ -152,6 +217,32 @@ On the same hosting computer:
 4. Run `start.ps1`.
 
 Setup and organizer initialization do not need to be repeated for every launch. Run `setup.ps1` again after project updates that require reinstalling dependencies or rebuilding the frontend.
+
+### Moving an existing server to another computer
+
+A clone contains the application and problem packages. It does **not** contain the old server's organizer account, teams, contests, or submission history: `.runtime` is excluded from Git.
+
+To transfer that data, stop the application on the old computer and run this from its project directory. Choose a new archive filename if one already exists:
+
+```powershell
+.\.venv\Scripts\python.exe tools/contest_backup.py backup .\.runtime .\relay-backup.zip
+```
+
+On the new computer, install the prerequisites, clone the project, and complete `setup.ps1`, but **do not run `start-contest.ps1` yet**. Privately copy the backup archive into the new project directory, then restore:
+
+```powershell
+.\.venv\Scripts\python.exe tools/contest_backup.py restore .\relay-backup.zip .\.runtime
+```
+
+The destination `.runtime` directory must not already exist; restore does not overwrite an initialized server. The archive contains private data and the session secret, so do not commit or share it with teams. It restores the existing organizer login and saved contest data. Continue with ngrok and the public environment settings above, using the restored secret. Browser-local drafts remain on their original browsers and are not part of the server backup.
+
+### Common setup issues
+
+- **A command is not recognized:** install that prerequisite, check its PATH entry, and open a new PowerShell terminal. Setup cannot install a missing runtime or compiler.
+- **PowerShell blocks a script:** use the documented `powershell -ExecutionPolicy Bypass -File ...` commands. For npm commands in PowerShell, use `npm.cmd`.
+- **Java or C++ is unavailable in the editor:** verify the corresponding commands in the same terminal used to launch the server, then restart the backend. See [language setup](docs/adding-languages.md) for explicit executable-path overrides.
+- **403: “Mutation requests require JSON and an approved local origin”:** use the actual public HTTPS URL for `$relayTunnel`, without a trailing slash or path, and restart using all environment settings from step 3. Access the application through that same URL.
+- **Port 8000 is already in use:** stop the earlier application with Ctrl+C before starting another copy. Stop the bootstrap server before the public startup.
 
 ### Important notes
 

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "abcabcbb\n",
+    "expected_output": "3\n",
+    "explanation": "Count a contiguous substring with no repeated characters; a subsequence does not count.",
+    "requirements": [
+      "contiguous",
+      "unique",
+      "window"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "basic",
+    "input": "bbbbb\n",
+    "expected_output": "1\n",
+    "explanation": "Count a contiguous substring with no repeated characters; a subsequence does not count.",
+    "requirements": [
+      "contiguous",
+      "unique",
+      "window"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "basic",
+    "input": "pwwkew\n",
+    "expected_output": "3\n",
+    "explanation": "Count a contiguous substring with no repeated characters; a subsequence does not count.",
+    "requirements": [
+      "contiguous",
+      "unique",
+      "window"
+    ]
+  }
+]

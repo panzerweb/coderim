@@ -4,6 +4,7 @@ from pathlib import Path
 from pydantic import TypeAdapter
 from .models import Manifest, ProblemMetadata, Sample
 from .languages import LANGUAGES
+from .checkers import validate_expected_output
 
 
 MAX_CASES = 100
@@ -87,6 +88,7 @@ def load_problem(root: Path) -> Problem:
         input_bytes, output_bytes = len(c.stdin.encode()), len(c.expected.encode())
         if input_bytes > meta.limits.stdin_bytes or output_bytes > meta.limits.stdout_bytes:
             raise ValueError("Case exceeds configured I/O limits")
+        validate_expected_output(c.expected, meta.checker)
         total_bytes += input_bytes + output_bytes
     if total_bytes > MAX_PACKAGE_BYTES or seen_requirements != reqs or seen_categories != set(meta.category_weights):
         raise ValueError("Missing category/requirement coverage or package too large")

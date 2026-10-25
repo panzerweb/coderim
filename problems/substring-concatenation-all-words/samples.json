@@ -1,0 +1,37 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "barfoothefoobarman\n2\nfoo\nbar\n",
+    "expected_output": "[\n  0,\n  9\n]\n",
+    "explanation": "The matches are barfoo at 0 and foobar at 9.",
+    "requirements": [
+      "permutation",
+      "complete"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "multiplicities",
+    "input": "wordgoodgoodgoodbestword\n4\nword\ngood\nbest\nword\n",
+    "expected_output": "[]\n",
+    "explanation": "Two occurrences of word are required within the same concatenation.",
+    "requirements": [
+      "permutation",
+      "complete",
+      "multiplicity"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "basic",
+    "input": "barfoofoobarthefoobarman\n3\nbar\nfoo\nthe\n",
+    "expected_output": "[\n  6,\n  9,\n  12\n]\n",
+    "explanation": "Three overlapping concatenations contain all three words. Their indices may be returned in any order.",
+    "requirements": [
+      "permutation",
+      "complete",
+      "overlaps"
+    ]
+  }
+]

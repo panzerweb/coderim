@@ -1,0 +1,388 @@
+{
+  "cases": [
+    {
+      "id": "basic-01",
+      "category": "basic",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/basic-01.in",
+      "output_file": "tests/basic-01.out"
+    },
+    {
+      "id": "basic-02",
+      "category": "basic",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/basic-02.in",
+      "output_file": "tests/basic-02.out"
+    },
+    {
+      "id": "basic-03",
+      "category": "basic",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/basic-03.in",
+      "output_file": "tests/basic-03.out"
+    },
+    {
+      "id": "basic-04",
+      "category": "basic",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/basic-04.in",
+      "output_file": "tests/basic-04.out"
+    },
+    {
+      "id": "basic-05",
+      "category": "basic",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/basic-05.in",
+      "output_file": "tests/basic-05.out"
+    },
+    {
+      "id": "basic-06",
+      "category": "basic",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/basic-06.in",
+      "output_file": "tests/basic-06.out"
+    },
+    {
+      "id": "basic-07",
+      "category": "basic",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/basic-07.in",
+      "output_file": "tests/basic-07.out"
+    },
+    {
+      "id": "basic-08",
+      "category": "basic",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/basic-08.in",
+      "output_file": "tests/basic-08.out"
+    },
+    {
+      "id": "boundaries-01",
+      "category": "boundaries",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/boundaries-01.in",
+      "output_file": "tests/boundaries-01.out"
+    },
+    {
+      "id": "boundaries-02",
+      "category": "boundaries",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/boundaries-02.in",
+      "output_file": "tests/boundaries-02.out"
+    },
+    {
+      "id": "boundaries-03",
+      "category": "boundaries",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/boundaries-03.in",
+      "output_file": "tests/boundaries-03.out"
+    },
+    {
+      "id": "boundaries-04",
+      "category": "boundaries",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/boundaries-04.in",
+      "output_file": "tests/boundaries-04.out"
+    },
+    {
+      "id": "boundaries-05",
+      "category": "boundaries",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/boundaries-05.in",
+      "output_file": "tests/boundaries-05.out"
+    },
+    {
+      "id": "boundaries-06",
+      "category": "boundaries",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/boundaries-06.in",
+      "output_file": "tests/boundaries-06.out"
+    },
+    {
+      "id": "boundaries-07",
+      "category": "boundaries",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/boundaries-07.in",
+      "output_file": "tests/boundaries-07.out"
+    },
+    {
+      "id": "boundaries-08",
+      "category": "boundaries",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/boundaries-08.in",
+      "output_file": "tests/boundaries-08.out"
+    },
+    {
+      "id": "behavior-01",
+      "category": "behavior",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/behavior-01.in",
+      "output_file": "tests/behavior-01.out"
+    },
+    {
+      "id": "behavior-02",
+      "category": "behavior",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/behavior-02.in",
+      "output_file": "tests/behavior-02.out"
+    },
+    {
+      "id": "behavior-03",
+      "category": "behavior",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/behavior-03.in",
+      "output_file": "tests/behavior-03.out"
+    },
+    {
+      "id": "behavior-04",
+      "category": "behavior",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/behavior-04.in",
+      "output_file": "tests/behavior-04.out"
+    },
+    {
+      "id": "behavior-05",
+      "category": "behavior",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/behavior-05.in",
+      "output_file": "tests/behavior-05.out"
+    },
+    {
+      "id": "behavior-06",
+      "category": "behavior",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/behavior-06.in",
+      "output_file": "tests/behavior-06.out"
+    },
+    {
+      "id": "behavior-07",
+      "category": "behavior",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/behavior-07.in",
+      "output_file": "tests/behavior-07.out"
+    },
+    {
+      "id": "behavior-08",
+      "category": "behavior",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/behavior-08.in",
+      "output_file": "tests/behavior-08.out"
+    },
+    {
+      "id": "scale-01",
+      "category": "scale",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/scale-01.in",
+      "output_file": "tests/scale-01.out"
+    },
+    {
+      "id": "scale-02",
+      "category": "scale",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/scale-02.in",
+      "output_file": "tests/scale-02.out"
+    },
+    {
+      "id": "scale-03",
+      "category": "scale",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/scale-03.in",
+      "output_file": "tests/scale-03.out"
+    },
+    {
+      "id": "scale-04",
+      "category": "scale",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/scale-04.in",
+      "output_file": "tests/scale-04.out"
+    },
+    {
+      "id": "scale-05",
+      "category": "scale",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/scale-05.in",
+      "output_file": "tests/scale-05.out"
+    },
+    {
+      "id": "scale-06",
+      "category": "scale",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/scale-06.in",
+      "output_file": "tests/scale-06.out"
+    },
+    {
+      "id": "scale-07",
+      "category": "scale",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/scale-07.in",
+      "output_file": "tests/scale-07.out"
+    },
+    {
+      "id": "scale-08",
+      "category": "scale",
+      "requirements": [
+        "count",
+        "prefix",
+        "order",
+        "bounds"
+      ],
+      "input_file": "tests/scale-08.in",
+      "output_file": "tests/scale-08.out"
+    }
+  ]
+}

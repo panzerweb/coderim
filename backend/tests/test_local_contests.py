@@ -115,7 +115,7 @@ class LocalContestTests(unittest.TestCase):
         from practice_problem_content import SPECS
         old,_=self.team('Original selection');self.start()
         self.assertEqual(len(old.get('/api/problems').json()),3)
-        self.assertEqual(len(self.admin.get('/api/problems').json()),10)
+        self.assertEqual(len(self.admin.get('/api/problems').json()),17)
         event=self.admin.post('/api/organizer/contests',json={'name':'Introductory problems',
             'starts_at':(datetime.now(timezone.utc)+timedelta(hours=1)).isoformat(),'duration_minutes':60})
         self.assertEqual(event.status_code,201,event.text);self.contest=event.json()['id']
@@ -227,6 +227,56 @@ class LocalContestTests(unittest.TestCase):
         self.assertEqual(interrupted['status'],'interrupted')
         self.assertEqual(interrupted['result']['verdict'],'Judge Error')
         self.assertEqual(self.admin.get('/api/jobs/unfinished').json()['state'],'interrupted')
+
+    def test_json_problem_checkers_are_pinned_and_results_reviews_survive_restart(self):
+        from leetcode_problem_content import SPECS
+        original_client,_=self.team('Original catalog');self.start()
+        event=self.admin.post('/api/organizer/contests',json={'name':'Function problems',
+            'starts_at':(datetime.now(timezone.utc)+timedelta(hours=1)).isoformat(),'duration_minutes':210})
+        self.assertEqual(event.status_code,201,event.text);self.contest=event.json()['id']
+        response=self.admin.post(f'/api/organizer/contests/{self.contest}/publish',json={'problem_ids':list(SPECS)})
+        self.assertEqual(response.status_code,200,response.text)
+        a,_=self.team('Functions');b,_=self.team('Other functions');self.start()
+        self.assertEqual({p['id'] for p in a.get('/api/problems').json()},set(SPECS))
+        self.assertEqual(len(original_client.get('/api/problems').json()),3)
+        expected_checkers={slug:self.app.state.repository.get(slug).meta.checker.model_dump() for slug in SPECS}
+        # Replacing repository comparison rules cannot alter already pinned rules.
+        original=self.app.state.repository.get('substring-concatenation-all-words')
+        from app.models import Checker
+        self.app.state.repository.problems[original.meta.id]=replace(original,meta=original.meta.model_copy(update={'checker':Checker()}))
+        identifiers={}
+        for slug in SPECS:
+            source=(ROOT/'problems'/slug/'author/reference.py').read_text(encoding='utf-8')
+            identifier,result=self.job(a,slug,source)
+            self.assertEqual(result['verdict'],'Accepted',result)
+            self.assertEqual(result['assessment']['correctness'],100)
+            self.assertEqual(result['assessment']['requirements'],100)
+            self.assertIsNone(result['assessment']['final'])
+            identifiers[slug]=identifier
+            for path in ('/api/submissions/','/api/jobs/','/api/attempts/'):
+                self.assertEqual(b.get(path+identifier).status_code,404)
+            detail=a.get('/api/submissions/'+identifier).json()
+            self.assertEqual(detail['code'],source);self.assertEqual(len(detail['result']['cases']),3)
+            self.assertNotIn('scale-01',json.dumps(detail));self.assertNotIn('provider_token',json.dumps(detail))
+            pinned=self.app.state.contests.problem(self.contest,slug)
+            self.assertEqual(pinned.meta.checker.model_dump(),expected_checkers[slug])
+        review={'readability':[4]*4,'technical':[4]*4,'rationale':'Checked syntax scanning and provided I/O.',
+            'complexity':{'status':'assessed','worst_case_time':'O(L)','auxiliary_space':'O(1)','total_space':'O(L)',
+                'reasoning':'The function scans once with constant state; its input string is retained.'}}
+        identifier=identifiers['valid-number']
+        self.assertEqual(a.put('/api/attempts/'+identifier+'/review',json=review).status_code,401)
+        self.assertEqual(self.admin.put('/api/attempts/'+identifier+'/review',json=review).status_code,200)
+        cookies=dict(a.cookies)
+        # Close the shared app's lifespan before opening the same database again.
+        self.clients.pop().__exit__(None,None,None)
+        self.app=self.application();restarted=self.enter(self.app)
+        restarted.cookies.update(cookies);restarted.headers['X-Relay-Role']='team'
+        history=restarted.get('/api/submissions/me').json();self.assertEqual(len(history),len(SPECS))
+        saved=restarted.get('/api/submissions/'+identifier).json()
+        self.assertEqual(saved['result']['assessment']['final'],100)
+        self.assertEqual(saved['review']['complexity']['worst_case_time'],'O(L)')
+        for slug in SPECS:
+            self.assertEqual(self.app.state.contests.problem(self.contest,slug).meta.checker.model_dump(),expected_checkers[slug])
 
     def test_manual_start_is_atomic(self):
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:

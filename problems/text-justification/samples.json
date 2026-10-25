@@ -1,0 +1,41 @@
+[
+  {
+    "id": "sample-01",
+    "category": "packing-order",
+    "input": "7 16\nThis is an example of text justification.\n",
+    "expected_output": "[\n  \"This    is    an\",\n  \"example  of text\",\n  \"justification.  \"\n]\n",
+    "explanation": "Greedy packing creates three lines of exactly 16 characters. The final line has two trailing spaces.",
+    "requirements": [
+      "packing",
+      "width",
+      "special",
+      "spaces"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "special-lines",
+    "input": "6 16\nWhat must be acknowledgment shall be\n",
+    "expected_output": "[\n  \"What   must   be\",\n  \"acknowledgment  \",\n  \"shall be        \"\n]\n",
+    "explanation": "The single-word line has two trailing spaces. The final line, \"shall be\", has eight trailing spaces, making its width 16.",
+    "requirements": [
+      "packing",
+      "width",
+      "special",
+      "spaces"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "space-distribution",
+    "input": "18 20\nScience is what we understand well enough to explain to a computer. Art is everything else we do\n",
+    "expected_output": "[\n  \"Science  is  what we\",\n  \"understand      well\",\n  \"enough to explain to\",\n  \"a  computer.  Art is\",\n  \"everything  else  we\",\n  \"do                  \"\n]\n",
+    "explanation": "Extra spaces go to leftmost gaps. The last line has eighteen trailing spaces.",
+    "requirements": [
+      "packing",
+      "width",
+      "special",
+      "spaces"
+    ]
+  }
+]

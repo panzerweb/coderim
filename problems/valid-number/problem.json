@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "valid-number",
+  "version": 1,
+  "title": "Valid Number",
+  "difficulty": "Hard",
+  "order": 12,
+  "tags": [
+    "Strings",
+    "Parsing",
+    "State Machines"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 60,
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "checker": {
+    "type": "json",
+    "value_type": "boolean",
+    "unordered": false
+  },
+  "requirements": [
+    {
+      "id": "mantissa",
+      "text": "Require at least one mantissa digit and permit an optional leading sign."
+    },
+    {
+      "id": "decimal",
+      "text": "Accept exactly the permitted decimal forms, with at most one decimal point."
+    },
+    {
+      "id": "exponent",
+      "text": "Allow one optional e/E exponent containing a signed or unsigned integer."
+    },
+    {
+      "id": "reject",
+      "text": "Reject all other characters, missing components, and misplaced signs or separators."
+    }
+  ],
+  "category_weights": {
+    "integers-signs": 20,
+    "decimals": 25,
+    "exponents": 30,
+    "invalid-syntax": 25
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "L": "Characters in s"
+    },
+    "time_by_phase": {
+      "Syntax scan": "O(L)"
+    },
+    "auxiliary_space": "O(1) auxiliary space",
+    "notes": "Reference guidance, not an analysis of the submitted program. Include stored input, returned values, JSON serialization buffers, and recursion stacks in total space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Hard follows LeetCode; the 60-minute practice estimate is provisional."
+  }
+}

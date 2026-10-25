@@ -11,7 +11,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from datetime import datetime, timezone
 import httpx
-from .judge import assessment, normalize
+from .judge import assessment
+from .checkers import outputs_match
 from .problems import Case
 
 
@@ -229,7 +230,7 @@ class RemoteJudge:
                 if len(stdout.encode()) > limits.stdout_bytes or len(stderr.encode()) > limits.stderr_bytes:
                     verdict = 'Output Limit Exceeded'
                 if verdict == 'OK':
-                    verdict = 'Completed' if mode == 'custom' else ('Accepted' if normalize(stdout, problem.meta.checker) == normalize(case.expected, problem.meta.checker) else 'Wrong Answer')
+                    verdict = 'Completed' if mode == 'custom' else ('Accepted' if outputs_match(stdout, case.expected, problem.meta.checker) else 'Wrong Answer')
                 try:
                     duration = float(response.get('time') or 0) * 1000
                     if not math.isfinite(duration) or duration < 0:

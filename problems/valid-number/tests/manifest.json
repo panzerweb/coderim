@@ -1,0 +1,647 @@
+{
+  "cases": [
+    {
+      "id": "integers-signs-01",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-01.in",
+      "output_file": "tests/integers-signs-01.out"
+    },
+    {
+      "id": "integers-signs-02",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-02.in",
+      "output_file": "tests/integers-signs-02.out"
+    },
+    {
+      "id": "integers-signs-03",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-03.in",
+      "output_file": "tests/integers-signs-03.out"
+    },
+    {
+      "id": "integers-signs-04",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-04.in",
+      "output_file": "tests/integers-signs-04.out"
+    },
+    {
+      "id": "integers-signs-05",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-05.in",
+      "output_file": "tests/integers-signs-05.out"
+    },
+    {
+      "id": "integers-signs-06",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-06.in",
+      "output_file": "tests/integers-signs-06.out"
+    },
+    {
+      "id": "integers-signs-07",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-07.in",
+      "output_file": "tests/integers-signs-07.out"
+    },
+    {
+      "id": "integers-signs-08",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-08.in",
+      "output_file": "tests/integers-signs-08.out"
+    },
+    {
+      "id": "integers-signs-09",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-09.in",
+      "output_file": "tests/integers-signs-09.out"
+    },
+    {
+      "id": "integers-signs-10",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-10.in",
+      "output_file": "tests/integers-signs-10.out"
+    },
+    {
+      "id": "integers-signs-11",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-11.in",
+      "output_file": "tests/integers-signs-11.out"
+    },
+    {
+      "id": "integers-signs-12",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-12.in",
+      "output_file": "tests/integers-signs-12.out"
+    },
+    {
+      "id": "integers-signs-13",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-13.in",
+      "output_file": "tests/integers-signs-13.out"
+    },
+    {
+      "id": "integers-signs-14",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-14.in",
+      "output_file": "tests/integers-signs-14.out"
+    },
+    {
+      "id": "integers-signs-15",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-15.in",
+      "output_file": "tests/integers-signs-15.out"
+    },
+    {
+      "id": "integers-signs-16",
+      "category": "integers-signs",
+      "requirements": [
+        "mantissa"
+      ],
+      "input_file": "tests/integers-signs-16.in",
+      "output_file": "tests/integers-signs-16.out"
+    },
+    {
+      "id": "decimals-01",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-01.in",
+      "output_file": "tests/decimals-01.out"
+    },
+    {
+      "id": "decimals-02",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-02.in",
+      "output_file": "tests/decimals-02.out"
+    },
+    {
+      "id": "decimals-03",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-03.in",
+      "output_file": "tests/decimals-03.out"
+    },
+    {
+      "id": "decimals-04",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-04.in",
+      "output_file": "tests/decimals-04.out"
+    },
+    {
+      "id": "decimals-05",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-05.in",
+      "output_file": "tests/decimals-05.out"
+    },
+    {
+      "id": "decimals-06",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-06.in",
+      "output_file": "tests/decimals-06.out"
+    },
+    {
+      "id": "decimals-07",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-07.in",
+      "output_file": "tests/decimals-07.out"
+    },
+    {
+      "id": "decimals-08",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-08.in",
+      "output_file": "tests/decimals-08.out"
+    },
+    {
+      "id": "decimals-09",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-09.in",
+      "output_file": "tests/decimals-09.out"
+    },
+    {
+      "id": "decimals-10",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-10.in",
+      "output_file": "tests/decimals-10.out"
+    },
+    {
+      "id": "decimals-11",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-11.in",
+      "output_file": "tests/decimals-11.out"
+    },
+    {
+      "id": "decimals-12",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-12.in",
+      "output_file": "tests/decimals-12.out"
+    },
+    {
+      "id": "decimals-13",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-13.in",
+      "output_file": "tests/decimals-13.out"
+    },
+    {
+      "id": "decimals-14",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal"
+      ],
+      "input_file": "tests/decimals-14.in",
+      "output_file": "tests/decimals-14.out"
+    },
+    {
+      "id": "decimals-15",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "reject"
+      ],
+      "input_file": "tests/decimals-15.in",
+      "output_file": "tests/decimals-15.out"
+    },
+    {
+      "id": "decimals-16",
+      "category": "decimals",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/decimals-16.in",
+      "output_file": "tests/decimals-16.out"
+    },
+    {
+      "id": "exponents-01",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-01.in",
+      "output_file": "tests/exponents-01.out"
+    },
+    {
+      "id": "exponents-02",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-02.in",
+      "output_file": "tests/exponents-02.out"
+    },
+    {
+      "id": "exponents-03",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-03.in",
+      "output_file": "tests/exponents-03.out"
+    },
+    {
+      "id": "exponents-04",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-04.in",
+      "output_file": "tests/exponents-04.out"
+    },
+    {
+      "id": "exponents-05",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-05.in",
+      "output_file": "tests/exponents-05.out"
+    },
+    {
+      "id": "exponents-06",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-06.in",
+      "output_file": "tests/exponents-06.out"
+    },
+    {
+      "id": "exponents-07",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-07.in",
+      "output_file": "tests/exponents-07.out"
+    },
+    {
+      "id": "exponents-08",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-08.in",
+      "output_file": "tests/exponents-08.out"
+    },
+    {
+      "id": "exponents-09",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-09.in",
+      "output_file": "tests/exponents-09.out"
+    },
+    {
+      "id": "exponents-10",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-10.in",
+      "output_file": "tests/exponents-10.out"
+    },
+    {
+      "id": "exponents-11",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-11.in",
+      "output_file": "tests/exponents-11.out"
+    },
+    {
+      "id": "exponents-12",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent"
+      ],
+      "input_file": "tests/exponents-12.in",
+      "output_file": "tests/exponents-12.out"
+    },
+    {
+      "id": "exponents-13",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/exponents-13.in",
+      "output_file": "tests/exponents-13.out"
+    },
+    {
+      "id": "exponents-14",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/exponents-14.in",
+      "output_file": "tests/exponents-14.out"
+    },
+    {
+      "id": "exponents-15",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/exponents-15.in",
+      "output_file": "tests/exponents-15.out"
+    },
+    {
+      "id": "exponents-16",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/exponents-16.in",
+      "output_file": "tests/exponents-16.out"
+    },
+    {
+      "id": "exponents-17",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/exponents-17.in",
+      "output_file": "tests/exponents-17.out"
+    },
+    {
+      "id": "exponents-18",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/exponents-18.in",
+      "output_file": "tests/exponents-18.out"
+    },
+    {
+      "id": "exponents-19",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/exponents-19.in",
+      "output_file": "tests/exponents-19.out"
+    },
+    {
+      "id": "exponents-20",
+      "category": "exponents",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/exponents-20.in",
+      "output_file": "tests/exponents-20.out"
+    },
+    {
+      "id": "invalid-syntax-01",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-01.in",
+      "output_file": "tests/invalid-syntax-01.out"
+    },
+    {
+      "id": "invalid-syntax-02",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-02.in",
+      "output_file": "tests/invalid-syntax-02.out"
+    },
+    {
+      "id": "invalid-syntax-03",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-03.in",
+      "output_file": "tests/invalid-syntax-03.out"
+    },
+    {
+      "id": "invalid-syntax-04",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-04.in",
+      "output_file": "tests/invalid-syntax-04.out"
+    },
+    {
+      "id": "invalid-syntax-05",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "exponent",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-05.in",
+      "output_file": "tests/invalid-syntax-05.out"
+    },
+    {
+      "id": "invalid-syntax-06",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-06.in",
+      "output_file": "tests/invalid-syntax-06.out"
+    },
+    {
+      "id": "invalid-syntax-07",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-07.in",
+      "output_file": "tests/invalid-syntax-07.out"
+    },
+    {
+      "id": "invalid-syntax-08",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-08.in",
+      "output_file": "tests/invalid-syntax-08.out"
+    },
+    {
+      "id": "invalid-syntax-09",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-09.in",
+      "output_file": "tests/invalid-syntax-09.out"
+    },
+    {
+      "id": "invalid-syntax-10",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-10.in",
+      "output_file": "tests/invalid-syntax-10.out"
+    },
+    {
+      "id": "invalid-syntax-11",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "decimal",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-11.in",
+      "output_file": "tests/invalid-syntax-11.out"
+    },
+    {
+      "id": "invalid-syntax-12",
+      "category": "invalid-syntax",
+      "requirements": [
+        "mantissa",
+        "reject"
+      ],
+      "input_file": "tests/invalid-syntax-12.in",
+      "output_file": "tests/invalid-syntax-12.out"
+    }
+  ]
+}

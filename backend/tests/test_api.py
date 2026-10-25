@@ -43,7 +43,7 @@ class ApiTests(unittest.TestCase):
 
     def test_catalog_safe_detail_and_validation(self):
         catalog = self.client.get('/api/problems').json()
-        self.assertEqual(len(catalog), 10)
+        self.assertEqual(len(catalog), 17)
         self.assertEqual(catalog[0]['difficulty'], 'Hard')
         problem = self.client.get('/api/problems/broken-code-formatter').json()
         public = json.dumps(problem)

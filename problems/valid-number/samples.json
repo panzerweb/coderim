@@ -1,0 +1,36 @@
+[
+  {
+    "id": "sample-01",
+    "category": "integers-signs",
+    "input": "0\n",
+    "expected_output": "true\n",
+    "explanation": "An integer with one digit.",
+    "requirements": [
+      "mantissa"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "invalid-syntax",
+    "input": "e\n",
+    "expected_output": "false\n",
+    "explanation": "An exponent marker alone is not a number.",
+    "requirements": [
+      "mantissa",
+      "exponent",
+      "reject"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "invalid-syntax",
+    "input": ".\n",
+    "expected_output": "false\n",
+    "explanation": "A decimal point needs at least one mantissa digit.",
+    "requirements": [
+      "mantissa",
+      "decimal",
+      "reject"
+    ]
+  }
+]

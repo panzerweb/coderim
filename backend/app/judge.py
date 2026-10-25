@@ -5,18 +5,8 @@ import time
 from pathlib import Path
 from .execution import execute
 from .languages import LANGUAGES, Registry
-from .models import Checker
+from .checkers import normalize, outputs_match
 from .problems import Case, Problem
-
-
-def normalize(text: str, checker: Checker) -> str:
-    if checker.normalize_line_endings:
-        text = text.replace("\r\n", "\n").replace("\r", "\n")
-    if checker.trim_trailing_whitespace_per_line:
-        text = "\n".join(line.rstrip(" \t") for line in text.split("\n"))
-    if checker.ignore_final_newline and text.endswith("\n"):
-        text = text[:-1]
-    return text
 
 
 def assessment(problem: Problem, outcomes: list[dict], complete: bool, compile_failed=False):
@@ -102,7 +92,7 @@ class Judge:
                         break
                     verdict = executed.verdict
                     if verdict == "OK":
-                        verdict = "Completed" if mode == "custom" else ("Accepted" if normalize(executed.stdout, problem.meta.checker) == normalize(case.expected, problem.meta.checker) else "Wrong Answer")
+                        verdict = "Completed" if mode == "custom" else ("Accepted" if outputs_match(executed.stdout, case.expected, problem.meta.checker) else "Wrong Answer")
                     outcome = {"id": case.id, "verdict": verdict, "duration_ms": executed.duration_ms}
                     outcomes.append(outcome)
                     if case.visible:

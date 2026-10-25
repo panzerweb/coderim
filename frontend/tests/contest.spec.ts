@@ -65,6 +65,34 @@ async function draft(page:Page,source:string){
   await page.getByTestId('code-editor').click({position:{x:250,y:100}})
   await page.keyboard.press('ControlOrMeta+A');await page.keyboard.press('ControlOrMeta+V')
 }
+
+async function chooseProblems(page:Page,ids:string[]){
+  const checkboxes=page.locator('.problem-check input[type="checkbox"]')
+  await expect(checkboxes).toHaveCount(17)
+  for(const checkbox of await checkboxes.all())await checkbox.setChecked(ids.includes((await checkbox.getAttribute('value'))!))
+}
+
+async function fillFunctionBody(page:Page,id:string){
+  const starter=fs.readFileSync(`../problems/${id}/starters/main.js`,'utf8')
+  const reference=fs.readFileSync(`../problems/${id}/author/reference.js`,'utf8')
+  const marker='// PROVIDED INPUT/OUTPUT'
+  const fn=reference.split(marker)[0]
+  const body=fn.slice(fn.indexOf('{')+1,fn.lastIndexOf('}')).replace(/^\n/,'')
+  await page.getByLabel('LANGUAGE',{exact:true}).selectOption('javascript')
+  await expect(page.getByTestId('code-editor')).toContainText('TODO')
+  await page.context().grantPermissions(['clipboard-read','clipboard-write'])
+  await page.evaluate(value=>navigator.clipboard.writeText(value),body)
+  await page.getByTestId('code-editor').click({position:{x:250,y:100}})
+  await page.keyboard.press('ControlOrMeta+Home')
+  await page.keyboard.press('ArrowDown');await page.keyboard.press('ArrowDown')
+  await page.keyboard.down('Shift');await page.keyboard.press('ArrowDown');await page.keyboard.press('ArrowDown');await page.keyboard.up('Shift')
+  await page.keyboard.press('ControlOrMeta+V')
+  await expect.poll(()=>page.evaluate(({id,marker})=>{
+    const key=Object.keys(localStorage).find(k=>k.endsWith(`:${id}:v1:javascript`))
+    return key?localStorage.getItem(key)?.split(marker)[1]?.replace(/\r\n/g,'\n'):null
+  },{id,marker})).toBe(starter.split(marker)[1].replace(/\r\n/g,'\n'))
+  await expect(page.getByTestId('code-editor')).not.toContainText('TODO')
+}
 test('organizer publishes, teams wait, record privately, preserve drafts, receive reviews, and retain ended history',async({browser,page:admin})=>{
   const errors:string[]=[];admin.on('pageerror',e=>errors.push(e.message))
   await organizer(admin)
@@ -74,9 +102,7 @@ test('organizer publishes, teams wait, record privately, preserve drafts, receiv
   await expect(admin.getByLabel('Minutes',{exact:true})).toHaveValue('30')
   await admin.getByRole('button',{name:'Create contest',exact:true}).click()
   // This regression intentionally pins only the original three challenges.
-  for(const id of ['add-two-numbers','longest-rising-streak','most-frequent-reading','palindrome-check','g-tree-ancestor-query','shortest-grid-route','longest-unique-segment']){
-    await admin.locator(`.problem-check input[value="${id}"]`).uncheck()
-  }
+  await chooseProblems(admin,['broken-code-formatter','longest-rising-streak-updates','g-tree-changing-root'])
   admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Publish contest',exact:true}).click()
   await expect(admin.getByRole('status')).toContainText('Contest published')
   const alpha=await createTeam(admin,'Alpha'),beta=await createTeam(admin,'Beta')
@@ -203,10 +229,7 @@ test('organizer selects seven introductory problems and reviews a team testing s
   const name=`Introductory relay ${Date.now()}`
   await admin.getByLabel('Contest name',{exact:true}).fill(name)
   await admin.getByRole('button',{name:'Create contest',exact:true}).click()
-  await expect(admin.locator('.problem-check input[type="checkbox"]')).toHaveCount(10)
-  for(const id of ['broken-code-formatter','longest-rising-streak-updates','g-tree-changing-root']){
-    await admin.locator(`.problem-check input[value="${id}"]`).uncheck()
-  }
+  await chooseProblems(admin,ids)
   admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Publish contest',exact:true}).click()
   await expect(admin.getByRole('status')).toContainText('Contest published')
   const code=await createTeam(admin,'Testing team')
@@ -248,5 +271,110 @@ test('organizer selects seven introductory problems and reviews a team testing s
     await expect(team.locator('.attempt-detail .final-score strong')).toHaveText('100%')
     await team.reload();await team.locator('.global-history button').first().click()
     await expect(team.getByLabel('Reviewed complexity',{exact:true})).toContainText('Only two bounded integers')
+  }finally{await context.close()}
+})
+
+test('function starters retain provided I/O and JSON submissions reach private history and organizer review',async({browser,page:admin})=>{
+  test.setTimeout(240_000)
+  const ids=['text-justification','valid-number','substring-concatenation-all-words']
+  await organizer(admin)
+  const name=`Function relay ${Date.now()}`
+  await admin.getByLabel('Contest name',{exact:true}).fill(name)
+  await admin.getByRole('button',{name:'Create contest',exact:true}).click()
+  await chooseProblems(admin,ids)
+  admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Publish contest',exact:true}).click()
+  await expect(admin.getByRole('status')).toContainText('Contest published')
+  const code=await createTeam(admin,'Function team')
+  admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Start contest now',exact:true}).click()
+  await expect(admin.getByRole('status')).toContainText('Contest started')
+  const context=await browser.newContext(),team=await context.newPage()
+  try{
+    await join(team,`${name} · active`,'Function team',code)
+    await team.goto('/problems');await expect(team.locator('.problem-row')).toHaveCount(3)
+    for(const id of ids){
+      await team.goto('/problems/'+id)
+      await fillFunctionBody(team,id)
+      await team.getByRole('button',{name:'▷ Run Code',exact:true}).click()
+      await expect(team.getByText('3 passed · 3 attempted / 3 total',{exact:true})).toBeVisible({timeout:45_000})
+      team.once('dialog',d=>d.accept());await team.getByRole('button',{name:'Record Submission',exact:true}).click()
+      const total=id==='valid-number'?67:43
+      await expect(team.getByText(`${total} passed · ${total} attempted / ${total} total`,{exact:true})).toBeVisible({timeout:45_000})
+      await teamNavigation(team,'Function team')
+    }
+    await team.goto('/history');await expect(team.locator('.global-history button')).toHaveCount(3)
+    await team.locator('.global-history button').first().click()
+    await expect(team.locator('.source-snapshot')).toContainText('PROVIDED INPUT/OUTPUT')
+    await admin.getByRole('button',{name:'Refresh console',exact:true}).click()
+    await admin.locator('.organizer-submissions .attempt-list button').first().click()
+    await expect(admin.locator('.source-snapshot')).toContainText('function findSubstring')
+    for(const select of await admin.locator('.review-form fieldset:not(.complexity-form) select').all())await select.selectOption('4')
+    await admin.getByLabel('Review rationale',{exact:true}).fill('Reviewed the solution function and its unchanged input/output driver.')
+    await admin.getByLabel('Analysis status',{exact:true}).selectOption('unable_to_assess')
+    await admin.getByLabel('Complexity reasoning',{exact:true}).fill('A detailed worst-case assessment is deferred; reference bounds are not substituted.')
+    await admin.getByRole('button',{name:'Save organizer review',exact:true}).click()
+    await expect(admin.getByRole('status')).toContainText('Organizer review saved')
+    await team.reload();await team.locator('.global-history button').first().click()
+    await expect(team.getByLabel('Reviewed complexity',{exact:true})).toContainText('Unable to assess')
+    await expect(team.locator('.attempt-detail .final-score strong')).toHaveText('100%')
+  }finally{await context.close()}
+})
+
+test('array mutation and raw-string function problems run, record, and retain reviewed history',async({browser,page:admin})=>{
+  test.setTimeout(240_000)
+  const ids=['plus-one','remove-duplicates-from-sorted-array','next-permutation','longest-substring-without-repeating-characters']
+  await organizer(admin)
+  const name=`Array relay ${Date.now()}`
+  await admin.getByLabel('Contest name',{exact:true}).fill(name)
+  await admin.getByRole('button',{name:'Create contest',exact:true}).click();await chooseProblems(admin,ids)
+  admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Publish contest',exact:true}).click()
+  await expect(admin.getByRole('status')).toContainText('Contest published')
+  const code=await createTeam(admin,'Array team')
+  admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Start contest now',exact:true}).click()
+  await expect(admin.getByRole('status')).toContainText('Contest started')
+  const context=await browser.newContext(),team=await context.newPage()
+  try{
+    await join(team,`${name} · active`,'Array team',code)
+    await team.goto('/problems');await expect(team.locator('.problem-row')).toHaveCount(4)
+    for(const id of ids){
+      await team.goto('/problems/'+id);await fillFunctionBody(team,id)
+      await team.getByRole('button',{name:'▷ Run Code',exact:true}).click()
+      await expect(team.getByText('3 passed · 3 attempted / 3 total',{exact:true})).toBeVisible({timeout:45_000})
+      team.once('dialog',d=>d.accept());await team.getByRole('button',{name:'Record Submission',exact:true}).click()
+      await expect(team.getByText('35 passed · 35 attempted / 35 total',{exact:true})).toBeVisible({timeout:45_000})
+      await teamNavigation(team,'Array team')
+    }
+    await team.getByLabel('Custom input',{exact:true}).check()
+    await team.getByLabel('Standard input',{exact:true}).fill('')
+    await team.getByRole('button',{name:'▷ Run input',exact:true}).click()
+    await expect(team.getByLabel('Judge results').getByText('Completed',{exact:true}).first()).toBeVisible()
+    if(await team.locator('.test-case').first().getAttribute('open')===null)await team.locator('.test-case summary').first().click()
+    await expect(team.locator('.test-case').getByText('0',{exact:true})).toBeVisible()
+    await team.getByLabel('Standard input',{exact:true}).fill(' a ')
+    await team.getByRole('button',{name:'▷ Run input',exact:true}).click()
+    await expect(team.getByLabel('Judge results').getByText('Completed',{exact:true}).first()).toBeVisible()
+    if(await team.locator('.test-case').first().getAttribute('open')===null)await team.locator('.test-case summary').first().click()
+    await expect(team.locator('.test-case').getByText('2',{exact:true})).toBeVisible()
+    const saved=await team.request.get('/api/submissions/me').then(r=>r.json())
+    expect(saved).toHaveLength(4)
+    await team.goto('/history');await expect(team.locator('.global-history button')).toHaveCount(4)
+    await team.locator('.global-history button').first().click()
+    await expect(team.locator('.source-snapshot')).toContainText('function lengthOfLongestSubstring')
+    await admin.getByRole('button',{name:'Refresh console',exact:true}).click()
+    await admin.locator('.organizer-submissions .attempt-list button').first().click()
+    await expect(admin.locator('.source-snapshot')).toContainText('function lengthOfLongestSubstring')
+    await expect(admin.locator('.review-form fieldset:not(.complexity-form) select')).toHaveCount(8)
+    for(const select of await admin.locator('.review-form fieldset:not(.complexity-form) select').all())await select.selectOption('4')
+    await admin.getByLabel('Review rationale',{exact:true}).fill('The fixed ASCII window preserves spaces and handles empty input.')
+    await admin.getByLabel('Analysis status',{exact:true}).selectOption('assessed')
+    await admin.getByLabel('Worst-case time',{exact:true}).fill('O(L)')
+    await admin.getByLabel('Auxiliary space',{exact:true}).fill('O(1)')
+    await admin.getByLabel('Space including stored input/output',{exact:true}).fill('O(L)')
+    await admin.getByLabel('Complexity reasoning',{exact:true}).fill('One pass uses a fixed ASCII table; the provided driver retains the raw input string.')
+    await admin.getByRole('button',{name:'Save organizer review',exact:true}).click()
+    await expect(admin.getByRole('status')).toContainText('Organizer review saved')
+    await team.reload();await team.locator('.global-history button').first().click()
+    await expect(team.getByLabel('Reviewed complexity',{exact:true})).toContainText('fixed ASCII table')
+    await expect(team.locator('.attempt-detail .final-score strong')).toHaveText('100%')
+    await team.goto('/dashboard');await expect(team.locator('.metric-row article').first()).toContainText('4')
   }finally{await context.close()}
 })

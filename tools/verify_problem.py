@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'backend'))
 from app.problems import load_problem, safe_path
-from app.judge import normalize
+from app.checkers import outputs_match
 
 
 def verify(slug):
@@ -16,7 +16,7 @@ def verify(slug):
     for case in p.cases:
         run = subprocess.run([sys.executable, '-I', str(reference)], input=case.stdin,
             capture_output=True, text=True, timeout=5)
-        if run.returncode or normalize(run.stdout, p.meta.checker) != normalize(case.expected, p.meta.checker):
+        if run.returncode or not outputs_match(run.stdout, case.expected, p.meta.checker):
             raise ValueError(f'Reference disagrees with {case.id}')
     for incorrect in (directory / 'author' / 'incorrect_solutions').glob('*.py'):
         detected = False
@@ -27,7 +27,7 @@ def verify(slug):
             except subprocess.TimeoutExpired:
                 detected = True
                 break
-            if run.returncode or normalize(run.stdout, p.meta.checker) != normalize(case.expected, p.meta.checker):
+            if run.returncode or not outputs_match(run.stdout, case.expected, p.meta.checker):
                 detected = True
                 break
         if not detected:

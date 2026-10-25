@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "next-permutation",
+  "version": 1,
+  "title": "Next Permutation",
+  "difficulty": "Medium",
+  "order": 16,
+  "tags": [
+    "Arrays",
+    "Lexicographic Order",
+    "In-place"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 40,
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "checker": {
+    "type": "json",
+    "value_type": "integer_array",
+    "unordered": false
+  },
+  "requirements": [
+    {
+      "id": "next",
+      "text": "Produce the nearest lexicographically greater arrangement when it exists."
+    },
+    {
+      "id": "multiplicity",
+      "text": "Preserve the complete multiset of values and array length."
+    },
+    {
+      "id": "wrap",
+      "text": "Wrap a maximal arrangement to the smallest ascending arrangement."
+    },
+    {
+      "id": "mutation",
+      "text": "Modify the caller-held array, including duplicate and singleton cases."
+    }
+  ],
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "N": "Array length"
+    },
+    "time_by_phase": {
+      "Find pivot, swap, and reverse": "O(N)"
+    },
+    "auxiliary_space": "O(1) auxiliary space, excluding stored input and serialized output",
+    "notes": "Reference guidance, not an assessment of submitted source. Include stored input, serialized output, returned arrays, and stacks in total space. In-place/constant-space compliance is reviewed manually under Technical Quality; no automatic memory or complexity score is added. Difficulty follows LeetCode and the suggested practice duration is provisional."
+  }
+}

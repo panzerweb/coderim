@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "plus-one",
+  "version": 1,
+  "title": "Plus One",
+  "difficulty": "Easy",
+  "order": 14,
+  "tags": [
+    "Arrays",
+    "Arithmetic",
+    "Carry Propagation"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 20,
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "checker": {
+    "type": "json",
+    "value_type": "integer_array",
+    "unordered": false
+  },
+  "requirements": [
+    {
+      "id": "increment",
+      "text": "Increment the represented integer by exactly one."
+    },
+    {
+      "id": "digits",
+      "text": "Return ordered base-ten digits without precision loss or leading zeros."
+    },
+    {
+      "id": "carry",
+      "text": "Propagate carries through consecutive trailing nines."
+    },
+    {
+      "id": "growth",
+      "text": "Grow the result when every input digit is nine."
+    }
+  ],
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "N": "Number of input digits"
+    },
+    "time_by_phase": {
+      "Worst-case carry propagation": "O(N)"
+    },
+    "auxiliary_space": "O(1) working space, excluding returned output of up to N+1 digits",
+    "notes": "Reference guidance, not an assessment of submitted source. Include stored input, serialized output, returned arrays, and stacks in total space. In-place/constant-space compliance is reviewed manually under Technical Quality; no automatic memory or complexity score is added. Difficulty follows LeetCode and the suggested practice duration is provisional."
+  }
+}

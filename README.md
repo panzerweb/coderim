@@ -18,8 +18,17 @@ Start with [the team-contest walkthrough](docs/team-contest-quickstart.md). For 
 | G-Tree Node Ancestor Query | 23 (three samples) | Provisional Medium / 40 minutes |
 | Shortest Grid Route | 23 (three samples) | Provisional Medium / 40 minutes |
 | Longest Unique Segment | 23 (three samples) | Provisional Medium / 40 minutes |
+| Text Justification | 43 (three samples) | Hard / provisional 60 minutes |
+| Valid Number | 67 (three samples) | Hard / provisional 60 minutes |
+| Substring with Concatenation of All Words | 43 (three samples) | Hard / provisional 60 minutes |
+| Plus One | 35 (three samples) | Easy / provisional 20 minutes |
+| Remove Duplicates from Sorted Array | 35 (three samples) | Easy / provisional 20 minutes |
+| Next Permutation | 35 (three samples) | Medium / provisional 40 minutes |
+| Longest Substring Without Repeating Characters | 35 (three samples) | Medium / provisional 40 minutes |
 
-The catalog contains four Easy, three Medium, and three Hard problems. The Hard variants use point updates/range queries for streaks and logical root changes for tree ancestry. The simpler versions are separate packages. Difficulty and suggested durations are provisional estimates for university DSA students. New introductory packages use a 2-second case limit; the two Hard variants retain their 5-second limits.
+The catalog contains **17 problems: six Easy, five Medium, and six Hard**. The Hard variants use point updates/range queries for streaks and logical root changes for tree ancestry. The simpler versions are separate packages. Suggested durations are provisional estimates for university DSA students. Introductory packages and the seven LeetCode-derived challenges use a 2-second case limit; the two existing Hard variants retain their 5-second limits.
+
+The seven LeetCode-derived challenges have **function starters**: implement the named function; provided code handles input, calls it, and prints JSON. Keep that I/O section intact. For Next Permutation, mutate the supplied array and return no value. For Remove Duplicates, mutate its prefix and return only k; the driver prints k and the relevant prefix. Text Justification checks spaces inside strings; concatenation indices may be returned in any order. See [the function-problem guide](docs/function-problems.md).
 
 Use **Add Two Numbers** for a quick end-to-end check: input `2 3` should output `5`. Run samples, record a submission as a team, then inspect its saved source and add a review as an organizer. Practice runs do not create official history.
 

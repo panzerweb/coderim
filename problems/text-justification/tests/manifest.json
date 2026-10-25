@@ -1,0 +1,471 @@
+{
+  "cases": [
+    {
+      "id": "packing-order-01",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-01.in",
+      "output_file": "tests/packing-order-01.out"
+    },
+    {
+      "id": "packing-order-02",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-02.in",
+      "output_file": "tests/packing-order-02.out"
+    },
+    {
+      "id": "packing-order-03",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-03.in",
+      "output_file": "tests/packing-order-03.out"
+    },
+    {
+      "id": "packing-order-04",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-04.in",
+      "output_file": "tests/packing-order-04.out"
+    },
+    {
+      "id": "packing-order-05",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-05.in",
+      "output_file": "tests/packing-order-05.out"
+    },
+    {
+      "id": "packing-order-06",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-06.in",
+      "output_file": "tests/packing-order-06.out"
+    },
+    {
+      "id": "packing-order-07",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-07.in",
+      "output_file": "tests/packing-order-07.out"
+    },
+    {
+      "id": "packing-order-08",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-08.in",
+      "output_file": "tests/packing-order-08.out"
+    },
+    {
+      "id": "packing-order-09",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-09.in",
+      "output_file": "tests/packing-order-09.out"
+    },
+    {
+      "id": "packing-order-10",
+      "category": "packing-order",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/packing-order-10.in",
+      "output_file": "tests/packing-order-10.out"
+    },
+    {
+      "id": "space-distribution-01",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-01.in",
+      "output_file": "tests/space-distribution-01.out"
+    },
+    {
+      "id": "space-distribution-02",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-02.in",
+      "output_file": "tests/space-distribution-02.out"
+    },
+    {
+      "id": "space-distribution-03",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-03.in",
+      "output_file": "tests/space-distribution-03.out"
+    },
+    {
+      "id": "space-distribution-04",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-04.in",
+      "output_file": "tests/space-distribution-04.out"
+    },
+    {
+      "id": "space-distribution-05",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-05.in",
+      "output_file": "tests/space-distribution-05.out"
+    },
+    {
+      "id": "space-distribution-06",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-06.in",
+      "output_file": "tests/space-distribution-06.out"
+    },
+    {
+      "id": "space-distribution-07",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-07.in",
+      "output_file": "tests/space-distribution-07.out"
+    },
+    {
+      "id": "space-distribution-08",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-08.in",
+      "output_file": "tests/space-distribution-08.out"
+    },
+    {
+      "id": "space-distribution-09",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-09.in",
+      "output_file": "tests/space-distribution-09.out"
+    },
+    {
+      "id": "space-distribution-10",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-10.in",
+      "output_file": "tests/space-distribution-10.out"
+    },
+    {
+      "id": "space-distribution-11",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-11.in",
+      "output_file": "tests/space-distribution-11.out"
+    },
+    {
+      "id": "space-distribution-12",
+      "category": "space-distribution",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/space-distribution-12.in",
+      "output_file": "tests/space-distribution-12.out"
+    },
+    {
+      "id": "special-lines-01",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/special-lines-01.in",
+      "output_file": "tests/special-lines-01.out"
+    },
+    {
+      "id": "special-lines-02",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/special-lines-02.in",
+      "output_file": "tests/special-lines-02.out"
+    },
+    {
+      "id": "special-lines-03",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/special-lines-03.in",
+      "output_file": "tests/special-lines-03.out"
+    },
+    {
+      "id": "special-lines-04",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/special-lines-04.in",
+      "output_file": "tests/special-lines-04.out"
+    },
+    {
+      "id": "special-lines-05",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/special-lines-05.in",
+      "output_file": "tests/special-lines-05.out"
+    },
+    {
+      "id": "special-lines-06",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/special-lines-06.in",
+      "output_file": "tests/special-lines-06.out"
+    },
+    {
+      "id": "special-lines-07",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/special-lines-07.in",
+      "output_file": "tests/special-lines-07.out"
+    },
+    {
+      "id": "special-lines-08",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/special-lines-08.in",
+      "output_file": "tests/special-lines-08.out"
+    },
+    {
+      "id": "special-lines-09",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/special-lines-09.in",
+      "output_file": "tests/special-lines-09.out"
+    },
+    {
+      "id": "special-lines-10",
+      "category": "special-lines",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/special-lines-10.in",
+      "output_file": "tests/special-lines-10.out"
+    },
+    {
+      "id": "boundaries-01",
+      "category": "boundaries",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/boundaries-01.in",
+      "output_file": "tests/boundaries-01.out"
+    },
+    {
+      "id": "boundaries-02",
+      "category": "boundaries",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/boundaries-02.in",
+      "output_file": "tests/boundaries-02.out"
+    },
+    {
+      "id": "boundaries-03",
+      "category": "boundaries",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/boundaries-03.in",
+      "output_file": "tests/boundaries-03.out"
+    },
+    {
+      "id": "boundaries-04",
+      "category": "boundaries",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/boundaries-04.in",
+      "output_file": "tests/boundaries-04.out"
+    },
+    {
+      "id": "boundaries-05",
+      "category": "boundaries",
+      "requirements": [
+        "packing",
+        "width",
+        "special",
+        "spaces"
+      ],
+      "input_file": "tests/boundaries-05.in",
+      "output_file": "tests/boundaries-05.out"
+    },
+    {
+      "id": "boundaries-06",
+      "category": "boundaries",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/boundaries-06.in",
+      "output_file": "tests/boundaries-06.out"
+    },
+    {
+      "id": "boundaries-07",
+      "category": "boundaries",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/boundaries-07.in",
+      "output_file": "tests/boundaries-07.out"
+    },
+    {
+      "id": "boundaries-08",
+      "category": "boundaries",
+      "requirements": [
+        "packing",
+        "width",
+        "special"
+      ],
+      "input_file": "tests/boundaries-08.in",
+      "output_file": "tests/boundaries-08.out"
+    }
+  ]
+}

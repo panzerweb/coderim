@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "id": "substring-concatenation-all-words",
+  "version": 1,
+  "title": "Substring with Concatenation of All Words",
+  "difficulty": "Hard",
+  "order": 13,
+  "tags": [
+    "Strings",
+    "Sliding Window",
+    "Frequency Counting"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 60,
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "checker": {
+    "type": "json",
+    "value_type": "integer_array",
+    "unordered": true
+  },
+  "requirements": [
+    {
+      "id": "permutation",
+      "text": "Match a concatenation of exactly all supplied words, in any permutation."
+    },
+    {
+      "id": "multiplicity",
+      "text": "Respect the required occurrence count of every word, including duplicates."
+    },
+    {
+      "id": "overlaps",
+      "text": "Find overlapping matches and starts at every word-length offset."
+    },
+    {
+      "id": "complete",
+      "text": "Return every valid zero-based index once, including exact-end matches, or an empty array."
+    }
+  ],
+  "category_weights": {
+    "basic": 15,
+    "multiplicities": 25,
+    "overlaps-offsets": 25,
+    "boundaries": 15,
+    "scale": 20
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "N": "Characters in s",
+      "M": "Number of supplied words",
+      "K": "Common word length",
+      "D": "Distinct supplied words",
+      "A": "Returned indices"
+    },
+    "time_by_phase": {
+      "Build word counts": "Expected O(MK)",
+      "Scan all offsets": "Expected O(NK)",
+      "Return indices": "O(A)"
+    },
+    "auxiliary_space": "O(DK) working space, excluding input and O(A) returned output",
+    "notes": "Reference guidance, not an analysis of the submitted program. Include stored input, returned values, JSON serialization buffers, and recursion stacks in total space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Hard follows LeetCode; the 60-minute practice estimate is provisional."
+  }
+}

@@ -34,10 +34,10 @@ class PracticeProblemTests(unittest.TestCase):
         repository=Repository(ROOT/'problems')
         self.assertEqual(repository.errors,{})
         published=repository.published()
-        self.assertEqual(len(published),10)
-        self.assertEqual(Counter(p.meta.difficulty for p in published),{'Easy':4,'Medium':3,'Hard':3})
+        self.assertEqual(len(published),17)
+        self.assertEqual(Counter(p.meta.difficulty for p in published),{'Easy':6,'Medium':5,'Hard':6})
         self.assertEqual([p.meta.id for p in published][:3],['broken-code-formatter','longest-rising-streak-updates','g-tree-changing-root'])
-        self.assertEqual([p.meta.id for p in published][3:],list(SPECS))
+        self.assertEqual([p.meta.id for p in published][3:10],list(SPECS))
         for slug,spec in SPECS.items():
             p=repository.get(slug)
             self.assertEqual(p.meta.version,1)

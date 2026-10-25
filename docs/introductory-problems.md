@@ -1,6 +1,6 @@
 # Easy and Medium practice problems
 
-Seven version-1 packages extend the catalog to ten challenges. Add Two Numbers is a five-minute application test; the other Easy tasks suggest 20 minutes and Medium tasks suggest 40. These estimates are informational and provisional for university DSA students.
+The seven introductory version-1 packages provide four Easy and three Medium challenges. The current seventeen-problem catalog also includes six Hard challenges and four more Easy/Medium LeetCode function tasks. Add Two Numbers is a five-minute application test; the other Easy tasks suggest 20 minutes and Medium tasks suggest 40. These estimates are informational and provisional for university DSA students.
 
 | Package | Key behavior | Reference target |
 | --- | --- | --- |

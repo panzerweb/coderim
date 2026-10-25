@@ -1,0 +1,41 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "3\n1 1 2\n",
+    "expected_output": "{\n  \"k\": 2,\n  \"nums\": [\n    1,\n    2\n  ]\n}\n",
+    "explanation": "Return k and update the first k entries. The driver shows only that prefix; the remaining entries do not matter.",
+    "requirements": [
+      "count",
+      "prefix",
+      "order",
+      "bounds"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "basic",
+    "input": "10\n0 0 1 1 1 2 2 3 3 4\n",
+    "expected_output": "{\n  \"k\": 5,\n  \"nums\": [\n    0,\n    1,\n    2,\n    3,\n    4\n  ]\n}\n",
+    "explanation": "Return k and update the first k entries. The driver shows only that prefix; the remaining entries do not matter.",
+    "requirements": [
+      "count",
+      "prefix",
+      "order",
+      "bounds"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "basic",
+    "input": "5\n-1 -1 0 0 1\n",
+    "expected_output": "{\n  \"k\": 3,\n  \"nums\": [\n    -1,\n    0,\n    1\n  ]\n}\n",
+    "explanation": "Return k and update the first k entries. The driver shows only that prefix; the remaining entries do not matter.",
+    "requirements": [
+      "count",
+      "prefix",
+      "order",
+      "bounds"
+    ]
+  }
+]

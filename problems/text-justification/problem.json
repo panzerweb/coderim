@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "id": "text-justification",
+  "version": 1,
+  "title": "Text Justification",
+  "difficulty": "Hard",
+  "order": 11,
+  "tags": [
+    "Strings",
+    "Greedy",
+    "Formatting"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 60,
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "checker": {
+    "type": "json",
+    "value_type": "string_array",
+    "unordered": false
+  },
+  "requirements": [
+    {
+      "id": "packing",
+      "text": "Keep every word in order and greedily fit as many words as possible on each line."
+    },
+    {
+      "id": "width",
+      "text": "Make every output line exactly maxWidth characters long."
+    },
+    {
+      "id": "spaces",
+      "text": "Distribute spaces evenly on ordinary lines, assigning the remainder to leftmost gaps."
+    },
+    {
+      "id": "special",
+      "text": "Left-align the last line and any single-word line, preserving right padding."
+    }
+  ],
+  "category_weights": {
+    "packing-order": 25,
+    "space-distribution": 30,
+    "special-lines": 25,
+    "boundaries": 20
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "C": "Total characters in input words",
+      "S": "Total characters in rendered output lines",
+      "W": "maxWidth"
+    },
+    "time_by_phase": {
+      "Formatting": "O(C + S)"
+    },
+    "auxiliary_space": "O(W) working space, excluding input and returned output",
+    "notes": "Reference guidance, not an analysis of the submitted program. Include stored input, returned values, JSON serialization buffers, and recursion stacks in total space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Hard follows LeetCode; the 60-minute practice estimate is provisional."
+  }
+}

@@ -112,7 +112,7 @@ class LargeInputApiTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             app = create_app(runtime=Path(temp), registry=self.registry)
             with TestClient(app, base_url='http://127.0.0.1:8000') as client:
-                self.assertEqual(len(client.get('/api/problems').json()), 10)
+                self.assertEqual(len(client.get('/api/problems').json()), 17)
                 for slug in ('longest-rising-streak-updates', 'g-tree-changing-root'):
                     detail = client.get('/api/problems/' + slug).json()
                     self.assertEqual(detail['limits']['stdin_bytes'], MAX_STDIN_BYTES)

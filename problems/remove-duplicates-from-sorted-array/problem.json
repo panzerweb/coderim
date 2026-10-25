@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "id": "remove-duplicates-from-sorted-array",
+  "version": 1,
+  "title": "Remove Duplicates from Sorted Array",
+  "difficulty": "Easy",
+  "order": 15,
+  "tags": [
+    "Arrays",
+    "Two Pointers",
+    "In-place"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 20,
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "checker": {
+    "type": "json",
+    "value_type": "deduplicated_array",
+    "unordered": false
+  },
+  "requirements": [
+    {
+      "id": "count",
+      "text": "Return the number k of distinct values."
+    },
+    {
+      "id": "prefix",
+      "text": "Modify the caller-visible array so its first k entries contain the unique values."
+    },
+    {
+      "id": "order",
+      "text": "Preserve sorted order and include each distinct value exactly once."
+    },
+    {
+      "id": "bounds",
+      "text": "Handle signed, singleton, all-equal, and maximum-size sorted arrays."
+    }
+  ],
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "N": "Input array length",
+      "K": "Unique values (at most 201)"
+    },
+    "time_by_phase": {
+      "Compaction": "O(N)"
+    },
+    "auxiliary_space": "O(1) auxiliary space; the provided driver stores/serializes O(K) result data",
+    "notes": "Reference guidance, not an assessment of submitted source. Include stored input, serialized output, returned arrays, and stacks in total space. In-place/constant-space compliance is reviewed manually under Technical Quality; no automatic memory or complexity score is added. Difficulty follows LeetCode and the suggested practice duration is provisional."
+  }
+}

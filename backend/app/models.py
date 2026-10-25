@@ -29,6 +29,18 @@ class Checker(StrictModel):
     ignore_final_newline: bool = True
 
 
+class JsonChecker(StrictModel):
+    type: Literal["json"] = "json"
+    value_type: Literal["boolean", "string_array", "integer_array", "integer", "deduplicated_array"]
+    unordered: bool = False
+
+    @model_validator(mode="after")
+    def valid(self):
+        if self.unordered and self.value_type != "integer_array":
+            raise ValueError("Only integer arrays may use unordered comparison")
+        return self
+
+
 class Requirement(StrictModel):
     id: str = Field(pattern=r"^[a-z0-9-]+$")
     text: str = Field(min_length=1)
@@ -98,7 +110,7 @@ class ProblemMetadata(StrictModel):
     samples_file: str = "samples.json"
     tests_manifest: str = "tests/manifest.json"
     limits: Limits = Field(default_factory=Limits)
-    checker: Checker = Field(default_factory=Checker)
+    checker: Checker | JsonChecker = Field(default_factory=Checker)
     starters: dict[str, str] = Field(default_factory=dict)
     category_weights: dict[str, float]
     requirements: list[Requirement] = Field(min_length=1)

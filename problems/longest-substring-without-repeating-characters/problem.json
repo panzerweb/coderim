@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "longest-substring-without-repeating-characters",
+  "version": 1,
+  "title": "Longest Substring Without Repeating Characters",
+  "difficulty": "Medium",
+  "order": 17,
+  "tags": [
+    "Strings",
+    "Sliding Window",
+    "ASCII"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 40,
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "checker": {
+    "type": "json",
+    "value_type": "integer",
+    "unordered": false
+  },
+  "requirements": [
+    {
+      "id": "contiguous",
+      "text": "Measure consecutive substrings rather than subsequences or global distinct counts."
+    },
+    {
+      "id": "unique",
+      "text": "Exclude repeated characters while preserving case and spaces."
+    },
+    {
+      "id": "window",
+      "text": "Move the left boundary forward and retain valid overlapping windows."
+    },
+    {
+      "id": "bounds",
+      "text": "Handle empty strings, significant edge spaces, and maximum-length input."
+    }
+  ],
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "L": "Characters in the input string"
+    },
+    "time_by_phase": {
+      "Sliding window": "O(L)"
+    },
+    "auxiliary_space": "O(1) auxiliary space with a fixed ASCII table; stored input takes O(L)",
+    "notes": "Reference guidance, not an assessment of submitted source. Include stored input, serialized output, returned arrays, and stacks in total space. In-place/constant-space compliance is reviewed manually under Technical Quality; no automatic memory or complexity score is added. Difficulty follows LeetCode and the suggested practice duration is provisional."
+  }
+}

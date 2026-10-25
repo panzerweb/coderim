@@ -34,7 +34,7 @@ try {
   await page.keyboard.press('Control+End')
   await page.keyboard.type('// local worker check')
   const catalog = await (await page.request.get('http://127.0.0.1:8000/api/problems')).json()
-  assert.equal(catalog.length, 10, 'All ten published challenges must be discoverable')
+  assert.equal(catalog.length, 17, 'All seventeen published challenges must be discoverable')
   for (const {id: slug} of catalog) {
     await page.goto(`http://127.0.0.1:8000/problems/${slug}`)
     await page.getByRole('button', {name: 'Submit ↗', exact: true}).waitFor()
@@ -44,7 +44,7 @@ try {
   assert.deepEqual(external, [], 'Runtime must not request external assets')
   assert.deepEqual(badResponses, [], 'Built assets and routes must load')
   assert.deepEqual(errors, [], 'No browser runtime errors')
-  console.log('Production smoke passed: all ten challenges, deep links, Monaco edits/workers, and local-only assets.')
+  console.log('Production smoke passed: all seventeen challenges, deep links, Monaco edits/workers, and local-only assets.')
 } finally {
   await browser.close()
 }

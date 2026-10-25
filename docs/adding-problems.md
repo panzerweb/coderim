@@ -20,4 +20,6 @@ Keep `author/` private: it contains reference algorithms, generation scripts, an
 
 Verify fixed and reproducibly generated outputs, then test the reference against an independent small-input oracle when practical. Set status to `published` only after validation/verification succeeds; restart the backend for discovery. Invalid packages are excluded and reported in operator logs. Ordinary stdin/stdout problems require no API, frontend, or judge changes.
 
+The seven introductory packages are reproducible with `tools/practice_problem_content.py` and verified across installed languages with `tools/verify_practice_problems.py`. See [their contracts and verification notes](introductory-problems.md). Published contests retain their pinned selections; adding packages does not add them to an existing event.
+
 Increment `version` when statements, tests, mappings, limits, or judging rules materially change. Increment `rubric.version` when review criteria change. History stores the original versions and rubric; browser drafts and trajectories are separated by content version and language. Historical versions remain queryable through the history API even if they are no longer published.

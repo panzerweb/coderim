@@ -92,6 +92,6 @@ Schema-1/2 history migrates transactionally to schema 3. Back up before upgradin
 
 ## Verification before the event
 
-`npm run test:contest` uses separate organizer/team browsers and the real local executor for all three problems. Backend tests run with `.venv/Scripts/python.exe -m unittest discover -s backend/tests -v` on Windows. Rehearse all languages and large cases on the deployed host, verify separate browser sessions, and test backup/restore. Local timings do not establish hosted capacity.
+`npm run test:contest` uses separate organizer/team browsers and the real local executor. One scenario preserves the original three-problem selection; another selects the seven introductory problems, runs their samples, records Add Two Numbers, and saves an organizer review. Backend tests run with `.venv/Scripts/python.exe -m unittest discover -s backend/tests -v` on Windows. Rehearse all languages and large cases on the deployed host, verify separate browser sessions, and test backup/restore. Local timings do not establish hosted capacity.
 
 The Docker image must still be built/tested with a running Docker engine or on Render. The engine was unavailable during this implementation; no live deployment is claimed.

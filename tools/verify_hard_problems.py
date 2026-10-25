@@ -15,12 +15,12 @@ from app.problems import load_problem
 FILES = {'python': 'reference.py', 'javascript': 'reference.js', 'cpp': 'reference.cpp', 'java': 'Main.java'}
 
 
-def main():
+def main(slugs=None, report_name='results.json'):
     registry = Registry()
     runtime = ROOT / '.runtime/content-verification'
     runtime.mkdir(parents=True, exist_ok=True)
     records = []
-    for slug in ('longest-rising-streak-updates', 'g-tree-changing-root'):
+    for slug in slugs or ('longest-rising-streak-updates', 'g-tree-changing-root'):
         directory = ROOT / 'problems' / slug
         p = load_problem(directory)
         for language, filename in FILES.items():
@@ -48,7 +48,7 @@ def main():
                 'case_durations_ms': dict(zip((c.id for c in p.cases), durations[1:]))}
             records.append(record)
             print(f'{slug}/{language}: {result["passed"]}/{result["total"]}, max case {maximum:.2f} ms / {p.meta.limits.time_ms} ms', flush=True)
-    (runtime / 'results.json').write_text(json.dumps(records, indent=2) + '\n', encoding='utf-8')
+    (runtime / report_name).write_text(json.dumps(records, indent=2) + '\n', encoding='utf-8')
 
 
 if __name__ == '__main__':

@@ -41,6 +41,8 @@ async function organizer(page:Page){
   await page.getByRole('button',{name:'Sign in as organizer',exact:true}).click()
   await expect(page.getByRole('heading',{name:'Run the relay.'})).toBeVisible()
   await expect(page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Organizer',exact:true})).toBeVisible()
+  // The heading renders before the console's async catalog/session load finishes.
+  await expect(page.locator('#event-start')).not.toHaveValue('')
 }
 async function createTeam(page:Page,name:string){
   await page.getByLabel('Team name',{exact:true}).fill(name)
@@ -71,6 +73,10 @@ test('organizer publishes, teams wait, record privately, preserve drafts, receiv
   await expect(admin.getByLabel('Hours',{exact:true})).toHaveValue('3')
   await expect(admin.getByLabel('Minutes',{exact:true})).toHaveValue('30')
   await admin.getByRole('button',{name:'Create contest',exact:true}).click()
+  // This regression intentionally pins only the original three challenges.
+  for(const id of ['add-two-numbers','longest-rising-streak','most-frequent-reading','palindrome-check','g-tree-ancestor-query','shortest-grid-route','longest-unique-segment']){
+    await admin.locator(`.problem-check input[value="${id}"]`).uncheck()
+  }
   admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Publish contest',exact:true}).click()
   await expect(admin.getByRole('status')).toContainText('Contest published')
   const alpha=await createTeam(admin,'Alpha'),beta=await createTeam(admin,'Beta')
@@ -188,4 +194,59 @@ test('organizer publishes, teams wait, record privately, preserve drafts, receiv
   await expect(a.getByRole('button',{name:'Sign in as organizer',exact:true})).toBeVisible()
   expect(errors).toEqual([])
   await aContext.close();await bContext.close()
+})
+
+test('organizer selects seven introductory problems and reviews a team testing submission',async({browser,page:admin})=>{
+  test.setTimeout(240_000)
+  const ids=['add-two-numbers','longest-rising-streak','most-frequent-reading','palindrome-check','g-tree-ancestor-query','shortest-grid-route','longest-unique-segment']
+  await organizer(admin)
+  const name=`Introductory relay ${Date.now()}`
+  await admin.getByLabel('Contest name',{exact:true}).fill(name)
+  await admin.getByRole('button',{name:'Create contest',exact:true}).click()
+  await expect(admin.locator('.problem-check input[type="checkbox"]')).toHaveCount(10)
+  for(const id of ['broken-code-formatter','longest-rising-streak-updates','g-tree-changing-root']){
+    await admin.locator(`.problem-check input[value="${id}"]`).uncheck()
+  }
+  admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Publish contest',exact:true}).click()
+  await expect(admin.getByRole('status')).toContainText('Contest published')
+  const code=await createTeam(admin,'Testing team')
+  admin.once('dialog',d=>d.accept());await admin.getByRole('button',{name:'Start contest now',exact:true}).click()
+  await expect(admin.getByRole('status')).toContainText('Contest started')
+  const context=await browser.newContext(),team=await context.newPage()
+  try{
+    await join(team,`${name} · active`,'Testing team',code)
+    await team.goto('/problems');await expect(team.locator('.problem-row')).toHaveCount(7)
+    for(const id of ids){
+      const source=fs.readFileSync(`../problems/${id}/author/reference.py`,'utf8')
+      await team.goto('/problems/'+id);await draft(team,source)
+      const run=team.getByRole('button',{name:'▷ Run Code',exact:true})
+      await expect(run).toBeEnabled();await run.click()
+      await expect(team.getByLabel('Judge results').getByText('Accepted',{exact:true}).first()).toBeVisible({timeout:45_000})
+      await expect(team.getByText('3 passed · 3 attempted / 3 total',{exact:true})).toBeVisible()
+      await teamNavigation(team,'Testing team')
+    }
+    await team.goto('/history');await expect(team.getByText('No official submissions on this page.')).toBeVisible()
+    await team.goto('/problems/add-two-numbers')
+    team.once('dialog',d=>d.dismiss());await team.getByRole('button',{name:'Record Submission',exact:true}).click()
+    expect(await team.request.get('/api/submissions/me').then(r=>r.json())).toHaveLength(0)
+    team.once('dialog',d=>d.accept());await team.getByRole('button',{name:'Record Submission',exact:true}).click()
+    await expect(team.getByText('23 passed · 23 attempted / 23 total',{exact:true})).toBeVisible({timeout:45_000})
+    const source=fs.readFileSync('../problems/add-two-numbers/author/reference.py','utf8')
+    await admin.getByRole('button',{name:'Refresh console',exact:true}).click()
+    await admin.locator('.organizer-submissions .attempt-list button').first().click()
+    await expect(admin.locator('.source-snapshot')).toHaveText(source)
+    for(const select of await admin.locator('.review-form fieldset:not(.complexity-form) select').all())await select.selectOption('4')
+    await admin.getByLabel('Review rationale',{exact:true}).fill('Both operands are parsed and added correctly.')
+    await admin.getByLabel('Analysis status',{exact:true}).selectOption('assessed')
+    for(const label of ['Worst-case time','Auxiliary space','Space including stored input/output'])await admin.getByLabel(label,{exact:true}).fill('O(1)')
+    await admin.getByLabel('Complexity reasoning',{exact:true}).fill('Only two bounded integers and their result are retained.')
+    await admin.getByRole('button',{name:'Save organizer review',exact:true}).click()
+    await expect(admin.getByRole('status')).toContainText('Organizer review saved')
+    await team.goto('/history');await team.locator('.global-history button').first().click()
+    await expect(team.locator('.source-snapshot')).toHaveText(source)
+    await expect(team.getByLabel('Reviewed complexity',{exact:true})).toContainText('O(1)')
+    await expect(team.locator('.attempt-detail .final-score strong')).toHaveText('100%')
+    await team.reload();await team.locator('.global-history button').first().click()
+    await expect(team.getByLabel('Reviewed complexity',{exact:true})).toContainText('Only two bounded integers')
+  }finally{await context.close()}
 })

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "id": "shortest-grid-route",
+  "version": 1,
+  "title": "Shortest Grid Route",
+  "difficulty": "Medium",
+  "order": 9,
+  "tags": [
+    "Graphs",
+    "BFS",
+    "Grids"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 40,
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "requirements": [
+    {
+      "id": "movement",
+      "text": "Use only in-bounds horizontal or vertical moves."
+    },
+    {
+      "id": "walls",
+      "text": "Avoid walls and detect an unreachable exit."
+    },
+    {
+      "id": "shortest",
+      "text": "Return the shortest available route rather than any route."
+    },
+    {
+      "id": "distance",
+      "text": "Count moves correctly for narrow, adjacent, and large grids."
+    }
+  ],
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "R": "Grid rows",
+      "C": "Grid columns"
+    },
+    "time_by_phase": {
+      "Breadth-first search": "O(RC)"
+    },
+    "auxiliary_space": "O(RC)",
+    "notes": "Reference targets describe an algorithm, not the submitted program. Include stored input/output and recursion stacks when reviewing total space. Tokenized input and buffered output in some language references consume additional space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Difficulty and duration are provisional estimates for university DSA students."
+  }
+}

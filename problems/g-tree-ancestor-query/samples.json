@@ -1,0 +1,41 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "6\n1 2\n1 3\n2 4\n3 6\n2 5\n3\n1 5\n3 4\n2 2\n",
+    "expected_output": "YES\nNO\nYES\n",
+    "explanation": "The fifth edge is 2 5. The root is an ancestor of node 5; self-ancestry is allowed.",
+    "requirements": [
+      "ancestor",
+      "self-root",
+      "edge-order",
+      "queries"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "boundaries",
+    "input": "1\n1\n1 1\n",
+    "expected_output": "YES\n",
+    "explanation": "A one-node tree is valid.",
+    "requirements": [
+      "ancestor",
+      "self-root",
+      "edge-order",
+      "queries"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "behavior",
+    "input": "4\n3 4\n1 2\n2 3\n3\n2 4\n4 2\n3 3\n",
+    "expected_output": "YES\nNO\nYES\n",
+    "explanation": "Edges need not arrive in traversal order; ancestor direction matters.",
+    "requirements": [
+      "ancestor",
+      "self-root",
+      "edge-order",
+      "queries"
+    ]
+  }
+]

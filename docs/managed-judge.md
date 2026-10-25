@@ -96,7 +96,7 @@ An unresolved execution places the provider on a persistent hold, preventing fre
 ## 5. Rehearse and publish
 
 1. Rehearse with organizer-only access and temporary team codes. Confirm both custom domains, cookie attributes, exact CORS, expiry, and reset/rejoin in separate browser profiles.
-2. Verify backups/restores and all three real packages through the selected provider. Check total quota and five-team responsiveness.
+2. Verify backups/restores and all published packages through the selected provider. Check the verification tool's execution estimate, total quota, and five-team responsiveness before running paid checks.
 3. Select problem packages and publish the contest. Statements/starters/private cases/rubrics/complexity targets are pinned to the persistent disk. Repository updates cannot change this event. Do not edit snapshot files.
 4. Teams may join while waiting. Problems are hidden until the server start time. All share one deadline. Record Submission requires confirmation; retries of uncertain recordings reuse the frozen source/key.
 5. After start, confirm deadline extensions in the console; shortening uses the explicit confirmed **End contest now** action. Already admitted work remains eligible when results finish later.

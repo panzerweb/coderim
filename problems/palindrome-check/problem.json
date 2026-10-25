@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "palindrome-check",
+  "version": 1,
+  "title": "Palindrome Check",
+  "difficulty": "Easy",
+  "order": 7,
+  "tags": [
+    "Strings",
+    "Two Pointers"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 20,
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "requirements": [
+    {
+      "id": "filter",
+      "text": "Compare only ASCII letters and digits."
+    },
+    {
+      "id": "case",
+      "text": "Ignore differences in letter case."
+    },
+    {
+      "id": "mirror",
+      "text": "Compare the complete normalized text in reverse order."
+    },
+    {
+      "id": "empty-singleton",
+      "text": "Accept empty normalized text and a single normalized character."
+    }
+  ],
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "L": "Characters in the input line"
+    },
+    "time_by_phase": {
+      "Two-pointer comparison": "O(L)"
+    },
+    "auxiliary_space": "O(1) beyond the stored input line",
+    "notes": "Reference targets describe an algorithm, not the submitted program. Include stored input/output and recursion stacks when reviewing total space. Tokenized input and buffered output in some language references consume additional space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Difficulty and duration are provisional estimates for university DSA students."
+  }
+}

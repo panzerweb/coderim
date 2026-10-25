@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "g-tree-ancestor-query",
+  "version": 1,
+  "title": "G-Tree Node Ancestor Query",
+  "difficulty": "Medium",
+  "order": 8,
+  "tags": [
+    "Trees",
+    "DFS",
+    "Ancestor Queries"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 40,
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "requirements": [
+    {
+      "id": "ancestor",
+      "text": "Determine ancestor direction under the fixed root 1."
+    },
+    {
+      "id": "self-root",
+      "text": "Handle self-ancestry and root relationships."
+    },
+    {
+      "id": "edge-order",
+      "text": "Build the tree regardless of edge ordering."
+    },
+    {
+      "id": "queries",
+      "text": "Return one correct answer per query across branches and depths."
+    }
+  ],
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 4194304,
+    "stdout_bytes": 1048576
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "N": "Tree nodes",
+      "Q": "Queries"
+    },
+    "time_by_phase": {
+      "Preprocessing": "O(N)",
+      "Each query": "O(1)",
+      "Total": "O(N + Q)"
+    },
+    "auxiliary_space": "O(N)",
+    "notes": "Reference targets describe an algorithm, not the submitted program. Include stored input/output and recursion stacks when reviewing total space. Tokenized input and buffered output in some language references consume additional space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Difficulty and duration are provisional estimates for university DSA students."
+  }
+}

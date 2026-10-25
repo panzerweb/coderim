@@ -1,0 +1,39 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "5\n4 2 4 2 4\n",
+    "expected_output": "4 3\n",
+    "explanation": "Count all readings and choose the highest frequency.",
+    "requirements": [
+      "count",
+      "maximum",
+      "signed-output"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "basic",
+    "input": "4\n-1 2 -1 2\n",
+    "expected_output": "-1 2\n",
+    "explanation": "Signed values follow the same rules.",
+    "requirements": [
+      "count",
+      "maximum",
+      "signed-output",
+      "tie"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "basic",
+    "input": "1\n7\n",
+    "expected_output": "7 1\n",
+    "explanation": "A single reading is valid.",
+    "requirements": [
+      "count",
+      "maximum",
+      "signed-output"
+    ]
+  }
+]

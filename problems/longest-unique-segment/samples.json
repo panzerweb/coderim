@@ -1,0 +1,41 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "5\n1 2 1 3 4\n",
+    "expected_output": "4\n",
+    "explanation": "The final four values form a unique consecutive segment.",
+    "requirements": [
+      "contiguous",
+      "unique",
+      "window",
+      "bounds"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "basic",
+    "input": "4\n-2 -2 -1 0\n",
+    "expected_output": "3\n",
+    "explanation": "The repeated initial value is excluded.",
+    "requirements": [
+      "contiguous",
+      "unique",
+      "window",
+      "bounds"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "basic",
+    "input": "1\n9\n",
+    "expected_output": "1\n",
+    "explanation": "A singleton has length 1.",
+    "requirements": [
+      "contiguous",
+      "unique",
+      "window",
+      "bounds"
+    ]
+  }
+]

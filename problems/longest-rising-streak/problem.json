@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "id": "longest-rising-streak",
+  "version": 1,
+  "title": "Longest Rising Streak",
+  "difficulty": "Easy",
+  "order": 5,
+  "tags": [
+    "Arrays",
+    "Linear Scan"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 20,
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "requirements": [
+    {
+      "id": "strict-rise",
+      "text": "Only strictly higher adjacent temperatures extend a streak."
+    },
+    {
+      "id": "consecutive",
+      "text": "Find the longest consecutive streak rather than a subsequence."
+    },
+    {
+      "id": "boundaries",
+      "text": "Handle singleton, equal, and signed temperatures."
+    },
+    {
+      "id": "independent-cases",
+      "text": "Reset state and print one answer for each test case."
+    }
+  ],
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "N": "Temperatures in a test case",
+      "T": "Test cases"
+    },
+    "time_by_phase": {
+      "All cases": "O(sum N)"
+    },
+    "auxiliary_space": "O(1) when processing temperatures sequentially",
+    "notes": "Reference targets describe an algorithm, not the submitted program. Include stored input/output and recursion stacks when reviewing total space. Tokenized input and buffered output in some language references consume additional space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Difficulty and duration are provisional estimates for university DSA students."
+  }
+}

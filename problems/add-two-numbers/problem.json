@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "add-two-numbers",
+  "version": 1,
+  "title": "Add Two Numbers",
+  "difficulty": "Easy",
+  "order": 4,
+  "tags": [
+    "Arithmetic",
+    "Input and Output"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 5,
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "requirements": [
+    {
+      "id": "operands",
+      "text": "Read both integer operands."
+    },
+    {
+      "id": "addition",
+      "text": "Compute their arithmetic sum."
+    },
+    {
+      "id": "signed-values",
+      "text": "Handle negative operands and zero."
+    },
+    {
+      "id": "answer-only",
+      "text": "Print only the required integer answer."
+    }
+  ],
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "A, B": "The two bounded integer operands"
+    },
+    "time_by_phase": {
+      "Compute": "O(1)"
+    },
+    "auxiliary_space": "O(1)",
+    "notes": "Reference targets describe an algorithm, not the submitted program. Include stored input/output and recursion stacks when reviewing total space. Tokenized input and buffered output in some language references consume additional space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Difficulty and duration are provisional estimates for university DSA students."
+  }
+}

@@ -6,6 +6,7 @@ import sys
 import tempfile
 import time
 import unittest
+from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest.mock import patch
@@ -109,6 +110,54 @@ class LocalContestTests(unittest.TestCase):
         self.assertEqual(b.get('/api/submissions/me').json(),[])
         events=self.admin.get('/api/organizer/audit').json()
         self.assertEqual(sum(e['action']=='contest_started_manually' for e in events),1)
+
+    def test_new_problem_selection_pinning_submission_review_and_private_history(self):
+        from practice_problem_content import SPECS
+        old,_=self.team('Original selection');self.start()
+        self.assertEqual(len(old.get('/api/problems').json()),3)
+        self.assertEqual(len(self.admin.get('/api/problems').json()),10)
+        event=self.admin.post('/api/organizer/contests',json={'name':'Introductory problems',
+            'starts_at':(datetime.now(timezone.utc)+timedelta(hours=1)).isoformat(),'duration_minutes':60})
+        self.assertEqual(event.status_code,201,event.text);self.contest=event.json()['id']
+        published=self.admin.post(f'/api/organizer/contests/{self.contest}/publish',json={'problem_ids':list(SPECS)})
+        self.assertEqual(published.status_code,200,published.text)
+        a,owner=self.team('New Alpha');b,_=self.team('New Beta');self.start()
+        self.assertEqual({p['id'] for p in a.get('/api/problems').json()},set(SPECS))
+        self.assertEqual(len(old.get('/api/problems').json()),3)
+        self.assertEqual(a.get('/api/problems/broken-code-formatter').status_code,404)
+        # Repository changes after publication cannot reinterpret this selection.
+        original=self.app.state.repository.get('add-two-numbers')
+        self.app.state.repository.problems['add-two-numbers']=replace(original,
+            meta=original.meta.model_copy(update={'version':2,'title':'Changed repository title'}))
+        detail=a.get('/api/problems/add-two-numbers').json()
+        self.assertEqual(detail['version'],1);self.assertEqual(detail['title'],'Add Two Numbers')
+        for slug in SPECS:
+            detail=a.get('/api/problems/'+slug).json()
+            self.assertEqual(detail['difficulty'],SPECS[slug]['difficulty'])
+            self.assertNotIn('author/',json.dumps(detail));self.assertNotIn('tests/',json.dumps(detail))
+        source=(ROOT/'problems/add-two-numbers/author/reference.py').read_text(encoding='utf-8')
+        identifier,result=self.job(a,'add-two-numbers',source)
+        self.assertEqual(result['verdict'],'Accepted',result)
+        saved=a.get('/api/submissions/'+identifier).json()
+        self.assertEqual(saved['code'],source);self.assertEqual(saved['team_id'],owner['id'])
+        self.assertEqual(saved['problem_version'],1)
+        self.assertEqual(saved['reference_complexity'],original.public()['reference_complexity'])
+        self.assertEqual(b.get('/api/submissions/'+identifier).status_code,404)
+        self.assertEqual(b.get('/api/jobs/'+identifier).status_code,404)
+        self.assertEqual(b.get('/api/submissions/me').json(),[])
+        review={'readability':[4]*4,'technical':[4]*4,'rationale':'Simple and correct sum of both signed operands.',
+            'complexity':{'status':'assessed','worst_case_time':'O(1)','auxiliary_space':'O(1)','total_space':'O(1)',
+                'reasoning':'Two bounded integers and one bounded result require constant space and time.'}}
+        self.assertEqual(a.put('/api/attempts/'+identifier+'/review',json=review).status_code,401)
+        response=self.admin.put('/api/attempts/'+identifier+'/review',json=review)
+        self.assertEqual(response.status_code,200,response.text)
+        saved=a.get('/api/submissions/'+identifier).json()
+        self.assertEqual(saved['result']['assessment']['final'],100)
+        self.assertEqual(saved['review']['complexity']['worst_case_time'],'O(1)')
+        self.assertEqual(len(saved['result']['cases']),3)
+        serialized=json.dumps(saved)
+        for secret in ('scale-01','input_file','output_file','author/','provider_token'):self.assertNotIn(secret,serialized)
+        self.assertEqual(len(a.get('/api/submissions/me').json()),1)
 
     def test_real_tests_scoring_all_problem_sources_reviews_and_owned_history(self):
         a,owner = self.team('Alpha'); b,other = self.team('Beta'); self.start()

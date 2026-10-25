@@ -14,7 +14,7 @@ async function submit(page: import('@playwright/test').Page, slug: string) {
 
 test('both hard challenge flows and reviewer-only annotations', async ({page}) => {
   await page.goto('/problems')
-  await expect(page.locator('.problem-row')).toHaveCount(3)
+  await expect(page.locator('.problem-row')).toHaveCount(10)
   await submit(page, 'longest-rising-streak-updates')
   await expect(page.getByText('28 passed · 28 attempted / 28 total', {exact: true})).toBeVisible()
   await expect(page.getByLabel('Reviewed complexity', {exact: true})).toContainText('Not assessed')

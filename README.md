@@ -11,8 +11,19 @@ Start with [the team-contest walkthrough](docs/team-contest-quickstart.md). For 
 | The Broken Code Formatter | 65 (six samples) | Hard / 60 minutes |
 | Longest Rising Streak with Updates | 28 (three samples) | Provisional Hard / 60 minutes |
 | G-Tree: Ancestors with a Changing Root | 23 (three samples) | Provisional Hard / 60 minutes |
+| Add Two Numbers | 23 (three samples) | Easy / 5 minutes; submission-flow testing |
+| Longest Rising Streak | 23 (three samples) | Provisional Easy / 20 minutes |
+| Most Frequent Reading | 23 (three samples) | Provisional Easy / 20 minutes |
+| Palindrome Check | 23 (three samples) | Provisional Easy / 20 minutes |
+| G-Tree Node Ancestor Query | 23 (three samples) | Provisional Medium / 40 minutes |
+| Shortest Grid Route | 23 (three samples) | Provisional Medium / 40 minutes |
+| Longest Unique Segment | 23 (three samples) | Provisional Medium / 40 minutes |
 
-The two new challenges target university DSA students: point updates/range queries for streaks, and logical root changes for tree ancestry. Their difficulty, duration, and 5-second execution limits remain provisional until piloted with representative students on the intended machine.
+The catalog contains four Easy, three Medium, and three Hard problems. The Hard variants use point updates/range queries for streaks and logical root changes for tree ancestry. The simpler versions are separate packages. Difficulty and suggested durations are provisional estimates for university DSA students. New introductory packages use a 2-second case limit; the two Hard variants retain their 5-second limits.
+
+Use **Add Two Numbers** for a quick end-to-end check: input `2 3` should output `5`. Run samples, record a submission as a team, then inspect its saved source and add a review as an organizer. Practice runs do not create official history.
+
+After updating, restart the backend to discover new packages. Existing published contests keep their pinned problems; create and publish a new contest to select the additions. No database migration is needed for these content packages. See [introductory problem notes](docs/introductory-problems.md) for contracts and verification commands.
 
 ## Deploying with ngrok
 

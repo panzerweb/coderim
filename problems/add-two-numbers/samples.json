@@ -1,0 +1,40 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "2 3\n",
+    "expected_output": "5\n",
+    "explanation": "The sum of 2 and 3 is 5.",
+    "requirements": [
+      "operands",
+      "addition",
+      "answer-only"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "basic",
+    "input": "-7 10\n",
+    "expected_output": "3\n",
+    "explanation": "The sum of -7 and 10 is 3.",
+    "requirements": [
+      "operands",
+      "addition",
+      "signed-values",
+      "answer-only"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "basic",
+    "input": "0 0\n",
+    "expected_output": "0\n",
+    "explanation": "The sum of 0 and 0 is 0.",
+    "requirements": [
+      "operands",
+      "addition",
+      "signed-values",
+      "answer-only"
+    ]
+  }
+]

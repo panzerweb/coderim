@@ -1,0 +1,36 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "A man, a plan, a canal: Panama!\n",
+    "expected_output": "YES\n",
+    "explanation": "Ignore spaces, punctuation, and letter case.",
+    "requirements": [
+      "mirror",
+      "filter",
+      "case"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "basic",
+    "input": "race a car\n",
+    "expected_output": "NO\n",
+    "explanation": "The remaining letters differ when reversed.",
+    "requirements": [
+      "mirror",
+      "filter"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "basic",
+    "input": " !? \n",
+    "expected_output": "YES\n",
+    "explanation": "Empty normalized text is a palindrome.",
+    "requirements": [
+      "empty-singleton",
+      "filter"
+    ]
+  }
+]

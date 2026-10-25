@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "id": "longest-unique-segment",
+  "version": 1,
+  "title": "Longest Unique Segment",
+  "difficulty": "Medium",
+  "order": 10,
+  "tags": [
+    "Arrays",
+    "Sliding Window",
+    "Maps"
+  ],
+  "status": "published",
+  "suggested_duration_minutes": 40,
+  "category_weights": {
+    "basic": 20,
+    "boundaries": 20,
+    "behavior": 40,
+    "scale": 20
+  },
+  "requirements": [
+    {
+      "id": "contiguous",
+      "text": "Measure consecutive segments rather than distinct values globally."
+    },
+    {
+      "id": "unique",
+      "text": "Exclude every repeated value from the current segment."
+    },
+    {
+      "id": "window",
+      "text": "Move the left boundary forward without losing valid overlapping segments."
+    },
+    {
+      "id": "bounds",
+      "text": "Handle singleton, signed, all-equal, and all-distinct inputs."
+    }
+  ],
+  "limits": {
+    "time_ms": 2000,
+    "memory_mb": 256,
+    "stdin_bytes": 1048576,
+    "stdout_bytes": 1048576
+  },
+  "starters": {
+    "python": "starters/main.py",
+    "javascript": "starters/main.js",
+    "cpp": "starters/main.cpp",
+    "java": "starters/Main.java"
+  },
+  "reference_complexity": {
+    "variables": {
+      "N": "Input values",
+      "D": "Distinct input values"
+    },
+    "time_by_phase": {
+      "Sliding window": "Expected O(N) with a hash table"
+    },
+    "auxiliary_space": "O(D)",
+    "notes": "Reference targets describe an algorithm, not the submitted program. Include stored input/output and recursion stacks when reviewing total space. Tokenized input and buffered output in some language references consume additional space. Hash-table bounds, where stated, are expected rather than worst-case guarantees. Difficulty and duration are provisional estimates for university DSA students."
+  }
+}

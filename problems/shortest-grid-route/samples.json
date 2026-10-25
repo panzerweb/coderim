@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sample-01",
+    "category": "basic",
+    "input": "3 3\nS..\n.#.\n..E\n",
+    "expected_output": "4\n",
+    "explanation": "Go around the wall in four moves.",
+    "requirements": [
+      "movement",
+      "distance",
+      "walls",
+      "shortest"
+    ]
+  },
+  {
+    "id": "sample-02",
+    "category": "basic",
+    "input": "1 3\nS#E\n",
+    "expected_output": "-1\n",
+    "explanation": "The wall blocks the only row.",
+    "requirements": [
+      "movement",
+      "distance",
+      "walls"
+    ]
+  },
+  {
+    "id": "sample-03",
+    "category": "basic",
+    "input": "1 2\nSE\n",
+    "expected_output": "1\n",
+    "explanation": "Adjacent start and exit require one move.",
+    "requirements": [
+      "movement",
+      "distance"
+    ]
+  }
+]
